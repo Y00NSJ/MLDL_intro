@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
-from fish_data import bream_length, bream_weight
+from fish_data import *
 
 plt.scatter(bream_length, bream_weight)
-plt.xlabel('length of bream')
-plt.ylabel('weight of bream')
+plt.scatter(smelt_length, smelt_weight)
+plt.xlabel('length')
+plt.ylabel('weight')
 plt.show()
