@@ -4,8 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # 샘플 49개
-fish_data = [[l, w] for l, w in zip(fish_length, fish_weight)]
-fish_target = [1]*35 + [0]*14
+fish_data = np.column_stack((fish_length, fish_weight))
+fish_target = np.concatenate((np.ones(35), np.ones(14)))
 
 input_arr = np.array(fish_data)
 target_arr = np.array(fish_target)
