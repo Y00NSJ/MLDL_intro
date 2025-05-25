@@ -1,7 +1,9 @@
 import numpy as np
-import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsRegressor
 
 
+# 총 42개
 perch_length = np.array([8.4, 13.7, 15.0, 16.2, 17.4, 18.0, 18.7, 19.0, 19.6, 20.0, 21.0,
        21.0, 21.0, 21.3, 22.0, 22.0, 22.0, 22.0, 22.0, 22.5, 22.5, 22.7,
        23.0, 23.5, 24.0, 24.0, 24.6, 25.0, 25.6, 26.5, 27.3, 27.5, 27.5,
@@ -16,7 +18,11 @@ perch_weight = np.array([5.9, 32.0, 40.0, 51.5, 70.0, 100.0, 78.0, 80.0, 85.0, 8
        850.0, 900.0, 1015.0, 820.0, 1100.0, 1000.0, 1100.0, 1000.0,
        1000.0])
 
-plt.scatter(perch_length, perch_weight)
-plt.xlabel('length')
-plt.ylabel('weight')
-plt.show()
+train_input, test_input, train_target, test_target = train_test_split(perch_length, perch_weight, random_state=42)
+train_input = train_input.reshape(-1, 1) # 첫 번째 크기를 원소 개수에 맞게 설정
+test_input = test_input.reshape(-1, 1)
+
+knn_reg = KNeighborsRegressor()
+
+knn_reg.fit(train_input, train_target)
+print("score of KNN Regressor:", knn_reg.score(test_input, test_target))
