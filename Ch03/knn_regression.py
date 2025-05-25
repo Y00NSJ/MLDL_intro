@@ -34,3 +34,12 @@ print (f"타깃과 예측의 절댓값 오차 평균: {mae}")
 
 train_set_score = knn_reg.score(train_input, train_target)
 print(f"score of KNN Regressor: {train_set_score}, 훈련셋 사용")
+
+
+print("\n====== underfitting 이슈 보완 =======\n")
+knn_reg.n_neighbors = 3
+knn_reg.fit(train_input, train_target)
+train_set_score = knn_reg.score(train_input, train_target)
+print(f"score of KNN Regressor: {train_set_score}, 훈련셋 사용")
+test_set_score = knn_reg.score(test_input, test_target)
+print(f"score of KNN Regressor: {test_set_score}, 테스트셋 사용")
