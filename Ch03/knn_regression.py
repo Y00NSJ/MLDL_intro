@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsRegressor
-
+from sklearn.metrics import mean_absolute_error
 
 # 총 42개
 perch_length = np.array([8.4, 13.7, 15.0, 16.2, 17.4, 18.0, 18.7, 19.0, 19.6, 20.0, 21.0,
@@ -23,6 +23,10 @@ train_input = train_input.reshape(-1, 1) # 첫 번째 크기를 원소 개수에
 test_input = test_input.reshape(-1, 1)
 
 knn_reg = KNeighborsRegressor()
-
 knn_reg.fit(train_input, train_target)
+
 print("score of KNN Regressor:", knn_reg.score(test_input, test_target))
+
+test_prediction = knn_reg.predict(test_input)
+mae = mean_absolute_error(test_target, test_prediction)
+print (f"타깃과 예측의 절댓값 오차 평균: {mae}")
