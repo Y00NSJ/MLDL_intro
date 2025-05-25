@@ -25,8 +25,12 @@ test_input = test_input.reshape(-1, 1)
 knn_reg = KNeighborsRegressor()
 knn_reg.fit(train_input, train_target)
 
-print("score of KNN Regressor:", knn_reg.score(test_input, test_target))
+test_set_score = knn_reg.score(test_input, test_target)
+print(f"score of KNN Regressor: {test_set_score}, 테스트셋 사용")
 
 test_prediction = knn_reg.predict(test_input)
 mae = mean_absolute_error(test_target, test_prediction)
 print (f"타깃과 예측의 절댓값 오차 평균: {mae}")
+
+train_set_score = knn_reg.score(train_input, train_target)
+print(f"score of KNN Regressor: {train_set_score}, 훈련셋 사용")
