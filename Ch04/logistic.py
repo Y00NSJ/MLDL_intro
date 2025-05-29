@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
-from scipy.special import expit
+from scipy.special import softmax
 
 
 fish = pd.read_csv('https://bit.ly/fish_csv_data')
@@ -54,7 +54,14 @@ print("Training score:", lr.score(train_scaled, train_target))
 print("Test score:", lr.score(test_scaled, test_target))
 
 print("\nPrediction of head samples of test set:", lr.predict(test_scaled[:5]))
-print("probabilities: ")
+decision = lr.decision_function(test_scaled[:5])
+print("each z value for each class: ")
+print(np.round(decision, decimals=2))
+probabilities = softmax(decision, axis=1)   # axis 지정해 각 샘플에 대한 소프트맥스 계산
+print("outpusts of softmax: ")
+print(np.round(probabilities, decimals=3))
+
+print("\nprobabilities: ")
 proba = lr.predict_proba(test_scaled[:5])
 print(lr.classes_)
 print(np.round(proba, decimals=3))
