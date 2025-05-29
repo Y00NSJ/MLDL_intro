@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
 
 
 fish = pd.read_csv('https://bit.ly/fish_csv_data')
@@ -22,4 +23,4 @@ test_scaled = ss.transform(test_input)
 ### Binary Classification using Logistic Regression
 bream_smelt_idx = (train_target == 'Bream') | (train_target == 'Smelt')     # T/F 배열(series)
 train_b_s = train_scaled[bream_smelt_idx]
-test_b_s = test_scaled[bream_smelt_idx]
+target_b_s = train_target[bream_smelt_idx]
