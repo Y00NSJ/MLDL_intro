@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
@@ -17,3 +18,9 @@ ss.fit(train_input)
 train_scaled = ss.transform(train_input)
 test_scaled = ss.transform(test_input)
 
+z = np.arange(-5, 5, 0.1)
+phi = 1 / (1 + np.exp(-z))
+plt.plot(z, phi)
+plt.xlabel('z')
+plt.ylabel('phi')
+plt.show()
