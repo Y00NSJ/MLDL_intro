@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
+from scipy.special import expit
 
 
 fish = pd.read_csv('https://bit.ly/fish_csv_data')
@@ -24,3 +25,18 @@ test_scaled = ss.transform(test_input)
 bream_smelt_idx = (train_target == 'Bream') | (train_target == 'Smelt')     # T/F 배열(series)
 train_b_s = train_scaled[bream_smelt_idx]
 target_b_s = train_target[bream_smelt_idx]
+
+lr = LogisticRegression()
+lr.fit(train_b_s, target_b_s)
+print(f"""Training Completed
+coefficient: {lr.coef_}
+intercept: {lr.intercept_}
+""")
+
+print("Prediction of head samples of train_b_s: ", lr.predict(train_b_s[:5]))
+decisions = lr.decision_function(train_b_s[:5])     # 양성 클래스에 대한 z값 반환
+print("z values: ", decisions)
+print("outputs of sigmoid: ", expit(decisions))
+print("probabilities: ")
+print(lr.classes_)
+print(lr.predict_proba(train_b_s[:5]))
