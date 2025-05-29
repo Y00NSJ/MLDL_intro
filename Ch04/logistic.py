@@ -22,21 +22,39 @@ test_scaled = ss.transform(test_input)
 
 
 ### Binary Classification using Logistic Regression
-bream_smelt_idx = (train_target == 'Bream') | (train_target == 'Smelt')     # T/F 배열(series)
-train_b_s = train_scaled[bream_smelt_idx]
-target_b_s = train_target[bream_smelt_idx]
+# bream_smelt_idx = (train_target == 'Bream') | (train_target == 'Smelt')     # T/F 배열(series)
+# train_b_s = train_scaled[bream_smelt_idx]
+# target_b_s = train_target[bream_smelt_idx]
+#
+# lr = LogisticRegression()
+# lr.fit(train_b_s, target_b_s)
+# print(f"""Training Completed
+# coefficient: {lr.coef_}
+# intercept: {lr.intercept_}
+# """)
+#
+# print("Prediction of head samples of train_b_s: ", lr.predict(train_b_s[:5]))
+# decisions = lr.decision_function(train_b_s[:5])     # 양성 클래스에 대한 z값 반환
+# print("z values: ", decisions)
+# print("outputs of sigmoid: ", expit(decisions))
+# print("probabilities: ")
+# print(lr.classes_)
+# print(lr.predict_proba(train_b_s[:5]))
 
-lr = LogisticRegression()
-lr.fit(train_b_s, target_b_s)
+
+### Multi-Class Classification
+lr = LogisticRegression(C=20, max_iter=1000)    # 규제 완화, 반복 횟수 증가
+lr.fit(train_scaled, train_target)
 print(f"""Training Completed
-coefficient: {lr.coef_}
-intercept: {lr.intercept_}
+size of coefficient: {lr.coef_.shape}
+size of intercept: {lr.intercept_.shape}
 """)
 
-print("Prediction of head samples of train_b_s: ", lr.predict(train_b_s[:5]))
-decisions = lr.decision_function(train_b_s[:5])     # 양성 클래스에 대한 z값 반환
-print("z values: ", decisions)
-print("outputs of sigmoid: ", expit(decisions))
+print("Training score:", lr.score(train_scaled, train_target))
+print("Test score:", lr.score(test_scaled, test_target))
+
+print("\nPrediction of head samples of test set:", lr.predict(test_scaled[:5]))
 print("probabilities: ")
+proba = lr.predict_proba(test_scaled[:5])
 print(lr.classes_)
-print(lr.predict_proba(train_b_s[:5]))
+print(np.round(proba, decimals=3))
