@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.neighbors import KNeighborsClassifier
+
 
 fish = pd.read_csv('https://bit.ly/fish_csv_data')
 # print(fish.columns.tolist()) # 특성 5개
@@ -18,9 +18,8 @@ ss.fit(train_input)
 train_scaled = ss.transform(train_input)
 test_scaled = ss.transform(test_input)
 
-z = np.arange(-5, 5, 0.1)
-phi = 1 / (1 + np.exp(-z))
-plt.plot(z, phi)
-plt.xlabel('z')
-plt.ylabel('phi')
-plt.show()
+
+### Binary Classification using Logistic Regression
+bream_smelt_idx = (train_target == 'Bream') | (train_target == 'Smelt')     # T/F 배열(series)
+train_b_s = train_scaled[bream_smelt_idx]
+test_b_s = test_scaled[bream_smelt_idx]
