@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
@@ -15,3 +16,10 @@ ss = StandardScaler()
 ss.fit(train_input)
 train_scaled = ss.transform(train_input)
 test_scaled = ss.transform(test_input)
+
+
+### KNeighborsClassifier
+kn = KNeighborsClassifier(n_neighbors=3)
+kn.fit(train_scaled, train_target)
+print("Train Score of KNN Classifier:", kn.score(train_scaled, train_target))
+print("Test Score of KNN Classifier:", kn.score(test_scaled, test_target))
