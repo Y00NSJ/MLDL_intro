@@ -1,7 +1,15 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import PolynomialFeatures
 
+# 데이터 불러오고 split
 perch_full = pd.read_csv('https://bit.ly/perch_csv_data')   # 주소로부터 CSV 파일 읽어오기
 from perch_data import perch_weight
-
 train_input, test_input, train_target, test_target = train_test_split(perch_full, perch_weight, random_state=42)
+
+# 특성 전처리
+poly = PolynomialFeatures()
+poly.fit(train_input)
+train_poly = poly.transform(train_input)
+print(poly.get_feature_names_out())
+test_poly = poly.transform(test_input)  # info leak 예방 위해 훈련 세트에 적용한 변환기를 기준으로 테스트셋 변환
