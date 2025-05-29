@@ -17,20 +17,3 @@ ss.fit(train_input)
 train_scaled = ss.transform(train_input)
 test_scaled = ss.transform(test_input)
 
-
-### KNeighborsClassifier
-kn = KNeighborsClassifier(n_neighbors=3)
-kn.fit(train_scaled, train_target)
-print("Train Score of KNN Classifier:", kn.score(train_scaled, train_target))
-print("Test Score of KNN Classifier:", kn.score(test_scaled, test_target))
-
-# 상단 5개 샘플에 대해 각각 클래스별 확률값 확인
-print("targets: ", kn.classes_)
-print("\npredict results of head samples from test set: ", kn.predict(test_scaled[:5]))
-proba = kn.predict_proba(test_scaled[:5])
-print("probabilities of head samples from test set: ")
-print(np.round(proba, decimals=4))  # 소수점 다섯 번째 자리에서 반올림
-
-# (계산된 확률값 == 최근접 이웃의 비율) 확인
-distances, indexes = kn.kneighbors(test_scaled[3:4])    # [3]번 샘플 1개
-print("neighbors of sample[3]", train_target.iloc[indexes[0]])  # 이웃들의 Species 확인
