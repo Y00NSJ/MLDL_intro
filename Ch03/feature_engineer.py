@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import PolynomialFeatures, StandardScaler
 from sklearn.linear_model import Ridge
@@ -28,7 +29,28 @@ test_scaled = ss.transform(test_poly)
 # print("Score of Test Set: ", lr.score(test_poly, test_target))
 
 ### Multiple Ridge Regression
-ridge = Ridge()
+# alpha 값 바꿀 때마다 score() 메서드의 결과 저장
+train_score = []
+test_score = []
+alpha_list = [0.001, 0.01, 0.1, 1, 10, 100]
+
+for alpha in alpha_list:
+    ridge = Ridge(alpha=alpha)
+    ridge.fit(train_scaled, train_target)
+    train_score.append(ridge.score(train_scaled, train_target))
+    test_score.append(ridge.score(test_scaled, test_target))
+
+plt.plot(alpha_list, train_score)
+plt.scatter(alpha_list, train_score)
+plt.plot(alpha_list, test_score)
+plt.scatter(alpha_list, test_score)
+plt.xscale('log')       # x축을 로그 스케일로 표시
+plt.xlabel('alpha')
+plt.ylabel('R^2')
+plt.show()
+
+# 최적 alpha 값으로 훈련
+ridge = Ridge(alpha=0.1)
 ridge.fit(train_scaled, train_target)
 print("Score of Train Set: ", ridge.score(train_scaled, train_target))
 print("Score of Test Set: ", ridge.score(test_scaled, test_target))
