@@ -59,7 +59,26 @@ test_scaled = ss.transform(test_poly)
 
 
 ### Multiple Ridge Regression
-lasso = Lasso()
+train_score = []
+test_score = []
+alpha_list = [0.001, 0.01, 0.1, 1, 10, 100]
+
+for alpha in alpha_list:
+    lasso = Lasso(alpha=alpha, max_iter=10000)
+    lasso.fit(train_scaled, train_target)
+    train_score.append(lasso.score(train_scaled, train_target))
+    test_score.append(lasso.score(test_scaled, test_target))
+
+plt.plot(alpha_list, train_score)
+plt.scatter(alpha_list, train_score)
+plt.plot(alpha_list, test_score)
+plt.scatter(alpha_list, test_score)
+plt.xscale('log')       # x축을 로그 스케일로 표시
+plt.xlabel('alpha')
+plt.ylabel('R^2')
+plt.show()
+
+lasso = Lasso(alpha=10)
 lasso.fit(train_scaled, train_target)
 print("Score of Train Set: ", lasso.score(train_scaled, train_target))
 print("Score of Test Set: ", lasso.score(test_scaled, test_target))
