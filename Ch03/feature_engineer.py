@@ -9,7 +9,7 @@ from perch_data import perch_weight
 train_input, test_input, train_target, test_target = train_test_split(perch_full, perch_weight, random_state=42)
 
 # 특성 전처리
-poly = PolynomialFeatures()
+poly = PolynomialFeatures(degree=5)
 poly.fit(train_input)
 train_poly = poly.transform(train_input)
 # print(poly.get_feature_names_out())
