@@ -23,3 +23,9 @@ kn = KNeighborsClassifier(n_neighbors=3)
 kn.fit(train_scaled, train_target)
 print("Train Score of KNN Classifier:", kn.score(train_scaled, train_target))
 print("Test Score of KNN Classifier:", kn.score(test_scaled, test_target))
+
+print("targets: ", kn.classes_)
+print("\npredict results of head samples from test set: ", kn.predict(test_scaled[:5]))
+proba = kn.predict_proba(test_scaled[:5])
+print("probabilities of head samples from test set: ")
+print(np.round(proba, decimals=4))  # 소수점 다섯 번째 자리에서 반올림
