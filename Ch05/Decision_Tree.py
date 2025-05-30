@@ -12,3 +12,8 @@ target = wine['class']
 train_input, test_input, train_target, test_target = (
     train_test_split(data, target, test_size=0.2, random_state=42)) # 샘플 수가 충분히 많으므로 20%만 테스트셋으로 분리
 
+# preprocess
+ss = StandardScaler()
+ss.fit(train_input)
+train_scaled = ss.transform(train_input)
+test_scaled = ss.transform(test_input)
