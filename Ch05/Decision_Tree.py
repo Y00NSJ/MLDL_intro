@@ -28,12 +28,12 @@ test_scaled = ss.transform(test_input)
 # print("test score: ", lr.score(test_scaled, test_target))
 
 ### Decision Tree
-dt = DecisionTreeClassifier(random_state=42)
+dt = DecisionTreeClassifier(max_depth=3, random_state=42)
 dt.fit(train_scaled, train_target)
 print("train score: ", dt.score(train_scaled, train_target))
 print("test score: ", dt.score(test_scaled, test_target))
 
 # visualization
-plt.figure(figsize=(10, 7))
-plot_tree(dt, max_depth=1, filled=True, feature_names=['alcohol', 'sugar', 'pH'])   # 결정 트리 시각화
-plt.show()
+# plt.figure(figsize=(10, 7))
+# plot_tree(dt, max_depth=1, filled=True, feature_names=['alcohol', 'sugar', 'pH'])   # 결정 트리 시각화
+# plt.show()
