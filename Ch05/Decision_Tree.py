@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
 
 
 # read CSV
@@ -17,3 +18,9 @@ ss = StandardScaler()
 ss.fit(train_input)
 train_scaled = ss.transform(train_input)
 test_scaled = ss.transform(test_input)
+
+# Logistic Regression
+lr = LogisticRegression()
+lr.fit(train_scaled, train_target)
+print("train score: ", lr.score(train_scaled, train_target))
+print("test score: ", lr.score(test_scaled, test_target))
