@@ -28,6 +28,7 @@ test_scaled = ss.transform(test_input)
 # print("test score: ", lr.score(test_scaled, test_target))
 
 ### Decision Tree
+# assigned max_depth to prune
 dt = DecisionTreeClassifier(max_depth=3, random_state=42)
 dt.fit(train_input, train_target)
 print("train score: ", dt.score(train_input, train_target))
@@ -44,3 +45,10 @@ def visualize(dt):
     plt.show()
 
 visualize(dt)
+
+# assigned min_impurity_decrease to prune
+dt_min_impurity = DecisionTreeClassifier(min_impurity_decrease=0.0005, random_state=42)
+dt_min_impurity.fit(train_input, train_target)
+print("train score: ", dt_min_impurity.score(train_input, train_target))
+print("test score: ", dt_min_impurity.score(test_input, test_target))
+visualize(dt_min_impurity)
