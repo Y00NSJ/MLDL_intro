@@ -18,9 +18,14 @@ ss.fit(train_input)
 train_scaled = ss.transform(train_input)
 test_scaled = ss.transform(test_input)
 
-# 확률적 경사 하강법을 통해 다중 분류 진행
+### 확률적 경사 하강법을 통해 다중 분류 진행
 sc = SGDClassifier(loss='log_loss', max_iter=10, random_state=42)   # 손실 함수 종류=로지스틱 손실 함수, 에포크 횟수=10
 sc.fit(train_scaled, train_target)
+print("Training score:", sc.score(train_scaled, train_target))
+print("Test score:", sc.score(test_scaled, test_target))
 
+# 앞선 모델에서, 이어서 훈련 진행
+sc.partial_fit(train_scaled, train_target)  # 1에포크 추가 훈련
+print("+ 1 epoch")
 print("Training score:", sc.score(train_scaled, train_target))
 print("Test score:", sc.score(test_scaled, test_target))
