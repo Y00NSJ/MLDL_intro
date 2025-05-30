@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import SGDClassifier
 
 
 # 데이터 불러오기
@@ -16,3 +17,7 @@ ss = StandardScaler()
 ss.fit(train_input)
 train_scaled = ss.transform(train_input)
 test_scaled = ss.transform(test_input)
+
+# 확률적 경사 하강법을 통해 다중 분류 진행
+sc = SGDClassifier(loss='log_loss', max_iter=10, random_state=42)   # 손실 함수 종류=로지스틱 손실 함수, 에포크 횟수=10
+sc.fit(train_scaled, train_target)
