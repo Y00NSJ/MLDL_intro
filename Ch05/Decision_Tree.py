@@ -29,9 +29,9 @@ test_scaled = ss.transform(test_input)
 
 ### Decision Tree
 dt = DecisionTreeClassifier(max_depth=3, random_state=42)
-dt.fit(train_scaled, train_target)
-print("train score: ", dt.score(train_scaled, train_target))
-print("test score: ", dt.score(test_scaled, test_target))
+dt.fit(train_input, train_target)
+print("train score: ", dt.score(train_input, train_target))
+print("test score: ", dt.score(test_input, test_target))
 
 # visualization
 plt.figure(figsize=(20, 15))
