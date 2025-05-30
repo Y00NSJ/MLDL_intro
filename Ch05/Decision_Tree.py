@@ -38,6 +38,9 @@ print(f"""feature importance:
 """)
 
 # visualization
-plt.figure(figsize=(20, 15))
-plot_tree(dt, filled=True, feature_names=['alcohol', 'sugar', 'pH'])   # 결정 트리 시각화
-plt.show()
+def visualize(dt):
+    plt.figure(figsize=(20, 15))
+    plot_tree(dt, filled=True, feature_names=['alcohol', 'sugar', 'pH'])   # 결정 트리 시각화
+    plt.show()
+
+visualize(dt)
