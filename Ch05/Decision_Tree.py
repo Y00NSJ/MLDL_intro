@@ -1,8 +1,9 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier, plot_tree
 
 
 # read CSV
@@ -31,3 +32,8 @@ dt = DecisionTreeClassifier(random_state=42)
 dt.fit(train_scaled, train_target)
 print("train score: ", dt.score(train_scaled, train_target))
 print("test score: ", dt.score(test_scaled, test_target))
+
+# visualization
+plt.figure(figsize=(10, 7))
+plot_tree(dt, max_depth=1, filled=True, feature_names=['alcohol', 'sugar', 'pH'])   # 결정 트리 시각화
+plt.show()
