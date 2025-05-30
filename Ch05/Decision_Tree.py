@@ -32,6 +32,10 @@ dt = DecisionTreeClassifier(max_depth=3, random_state=42)
 dt.fit(train_input, train_target)
 print("train score: ", dt.score(train_input, train_target))
 print("test score: ", dt.score(test_input, test_target))
+print(f"""feature importance: 
+['alcohol' 'sugar' 'pH']
+{dt.feature_importances_}
+""")
 
 # visualization
 plt.figure(figsize=(20, 15))
