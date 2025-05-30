@@ -49,7 +49,13 @@ test_scaled = ss.transform(test_input)
 # plt.show()
 
 # 최적 에포크 횟수인 100으로 훈련 진행
-sc = SGDClassifier(loss='log_loss', max_iter=100, tol=None, random_state=42)    # 성능 답보 시에도 자동 얼리스탑 없이 강제 반복 설정
+# sc = SGDClassifier(loss='log_loss', max_iter=100, tol=None, random_state=42)    # 성능 답보 시에도 자동 얼리스탑 없이 강제 반복 설정
+# sc.fit(train_scaled, train_target)
+# print("Training score of 100 epoch:", sc.score(train_scaled, train_target))
+# print("Test score of 100 epoch:", sc.score(test_scaled, test_target))
+
+# Hinge Loss
+sc = SGDClassifier(loss='hinge', max_iter=100, tol=None, random_state=42)
 sc.fit(train_scaled, train_target)
-print("Training score of 100 epoch:", sc.score(train_scaled, train_target))
-print("Test score of 100 epoch:", sc.score(test_scaled, test_target))
+print("Training score with hinge Loss Function:", sc.score(train_scaled, train_target))
+print("Test score of hinge Loss Function:", sc.score(test_scaled, test_target))
