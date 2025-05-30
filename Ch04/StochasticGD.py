@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import SGDClassifier
@@ -40,3 +41,9 @@ for _ in range(0, 300):     # 300번 진행
     sc.partial_fit(train_scaled, train_target, classes=classes) # fit() 사용하지 않고 partial_fit()만 사용해 훈련, 클래스 레이블 전달
     train_score.append(sc.score(train_scaled, train_target))
     test_score.append(sc.score(test_scaled, test_target))
+
+plt.plot(train_score)
+plt.plot(test_score)
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.show()
