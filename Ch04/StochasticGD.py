@@ -11,4 +11,8 @@ fish_target = fish['Species']
 # train set - test set 분리
 train_input, test_input, train_target, test_target = train_test_split(fish_input, fish_target, random_state=42)
 
-# 표준화 전처리
+# 각 데이터셋의 특성에 대해 표준화 전처리
+ss = StandardScaler()
+ss.fit(train_input)
+train_scaled = ss.transform(train_input)
+test_scaled = ss.transform(test_input)
