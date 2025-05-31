@@ -1,5 +1,5 @@
 import pandas as pd
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_validate
 from sklearn.tree import DecisionTreeClassifier
 
 
@@ -17,6 +17,10 @@ sub_input, val_input, sub_target, val_target = (
 
 # train and test model w/ sub-train set and validation set
 dt = DecisionTreeClassifier(random_state=42)
-dt.fit(sub_input, sub_target)
-print("sub-training score: ", dt.score(sub_input, sub_target))
-print("validating score: ", dt.score(val_input, val_target))
+# dt.fit(sub_input, sub_target)
+# print("sub-training score: ", dt.score(sub_input, sub_target))
+# print("validating score: ", dt.score(val_input, val_target))
+
+# 5-fold cross validation
+scores = cross_validate(dt, train_input, train_target)
+print(scores)
