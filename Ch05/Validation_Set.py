@@ -1,5 +1,6 @@
 import pandas as pd
-from sklearn.model_selection import train_test_split, cross_validate
+import numpy as np
+from sklearn.model_selection import train_test_split, cross_validate, StratifiedKFold
 from sklearn.tree import DecisionTreeClassifier
 
 
@@ -21,7 +22,13 @@ dt = DecisionTreeClassifier(random_state=42)
 # print("sub-training score: ", dt.score(sub_input, sub_target))
 # print("validating score: ", dt.score(val_input, val_target))
 
-# 5-fold cross validation
+### 5-fold cross validation
 scores = cross_validate(dt, train_input, train_target)
 for score in scores:
     print(f"{score}: {scores[score]}")
+print("final score: ", np.mean(scores['test_score']))
+
+# 10-fold cv with splitter
+splitter = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
+scores = cross_validate(dt, train_input, train_target, cv=splitter)
+print("final score: ", np.mean(scores['test_score']))
