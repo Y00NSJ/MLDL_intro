@@ -16,13 +16,16 @@ train_input, test_input, train_target, test_target = (
 sub_input, val_input, sub_target, val_target = (
     train_test_split(train_input, train_target, test_size=0.2, random_state=42))
 
+
 # train and test model w/ sub-train set and validation set
 dt = DecisionTreeClassifier(random_state=42)
 # dt.fit(sub_input, sub_target)
 # print("sub-training score: ", dt.score(sub_input, sub_target))
 # print("validating score: ", dt.score(val_input, val_target))
 
-### 5-fold cross validation
+
+### cross validation
+# 5-fold
 scores = cross_validate(dt, train_input, train_target)
 for score in scores:
     print(f"{score}: {scores[score]}")
