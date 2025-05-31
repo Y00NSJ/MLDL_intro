@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split, cross_validate, StratifiedKFold
+from sklearn.model_selection import train_test_split, cross_validate, StratifiedKFold, GridSearchCV
 from sklearn.tree import DecisionTreeClassifier
 
 
@@ -18,7 +18,7 @@ sub_input, val_input, sub_target, val_target = (
 
 
 # train and test model w/ sub-train set and validation set
-dt = DecisionTreeClassifier(random_state=42)
+# dt = DecisionTreeClassifier(random_state=42)
 # dt.fit(sub_input, sub_target)
 # print("sub-training score: ", dt.score(sub_input, sub_target))
 # print("validating score: ", dt.score(val_input, val_target))
@@ -26,12 +26,26 @@ dt = DecisionTreeClassifier(random_state=42)
 
 ### cross validation
 # 5-fold
-scores = cross_validate(dt, train_input, train_target)
-for score in scores:
-    print(f"{score}: {scores[score]}")
-print("final score: ", np.mean(scores['test_score']))
+# scores = cross_validate(dt, train_input, train_target)
+# for score in scores:
+#     print(f"{score}: {scores[score]}")
+# print("final score: ", np.mean(scores['test_score']))
 
 # 10-fold cv with splitter
-splitter = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
-scores = cross_validate(dt, train_input, train_target, cv=splitter)
-print("final score: ", np.mean(scores['test_score']))
+# splitter = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
+# scores = cross_validate(dt, train_input, train_target, cv=splitter)
+# print("final score: ", np.mean(scores['test_score']))
+
+
+### Tune Hyperparameter
+params = {'min_impurity_decrease': [0.0001, 0.0002, 0.0003, 0.0004, 0.0005]}    # 탐색할 매개변수: 탐색할 값 리스트
+gs = GridSearchCV(DecisionTreeClassifier(random_state=42), params, n_jobs=-1)   # 시스템 내 모든 코어 사용해 병렬 실행
+gs.fit(train_input, train_target)
+# train a model w/ the best hyperparameter using whole train set
+dt = gs.best_estimator_
+print("train terminated, final score: ", dt.score(train_input, train_target))
+# best hyperparameter and cv scores
+print("best params: ", gs.best_params_)                                 # 최적 매개변수
+print("cross validation scores: ", gs.cv_results_['mean_test_score'])   # 각 매개변수에서 수행한 교차검증의 평균 점수
+# ... can be expressed as...
+print(gs.cv_results_['params'][gs.best_index_])                         # 가장 높은 값의 인덱스 사용해 params 키에 저장된 매개변수 출력
