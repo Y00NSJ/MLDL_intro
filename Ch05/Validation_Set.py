@@ -23,4 +23,5 @@ dt = DecisionTreeClassifier(random_state=42)
 
 # 5-fold cross validation
 scores = cross_validate(dt, train_input, train_target)
-print(scores)
+for score in scores:
+    print(f"{score}: {scores[score]}")
