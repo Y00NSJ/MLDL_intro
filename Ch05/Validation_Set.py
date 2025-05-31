@@ -60,7 +60,12 @@ sub_input, val_input, sub_target, val_target = (
 
 ### Random Search
 # sampling from uniform distribution
-rgen = randint(0, 10)
-print(np.unique(rgen.rvs(1000), return_counts=True))
-ugen = uniform(0, 1)
-print(ugen.rvs(10))
+# rgen = randint(0, 10)
+# print(np.unique(rgen.rvs(1000), return_counts=True))
+# ugen = uniform(0, 1)
+# print(ugen.rvs(10))
+params = {'min_impurity_decrease': uniform(0.0001, 0.001),
+          'max_depth': randint(20, 50),
+          'min_samples_split': randint(2, 25),
+          'min_samples_leaf': randint(1, 25),
+          }
