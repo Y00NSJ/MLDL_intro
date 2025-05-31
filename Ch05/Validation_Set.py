@@ -61,4 +61,4 @@ sub_input, val_input, sub_target, val_target = (
 ### Random Search
 # sampling from uniform distribution
 rgen = randint(0, 10)
-print(rgen.rvs(10))
+print(np.unique(rgen.rvs(1000), return_counts=True))
