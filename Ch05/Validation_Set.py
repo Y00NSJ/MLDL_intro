@@ -62,3 +62,5 @@ sub_input, val_input, sub_target, val_target = (
 # sampling from uniform distribution
 rgen = randint(0, 10)
 print(np.unique(rgen.rvs(1000), return_counts=True))
+ugen = uniform(0, 1)
+print(ugen.rvs(10))
