@@ -10,3 +10,6 @@ target = wine['class']
 # split train set / test set
 train_input, test_input, train_target, test_target = (
     train_test_split(data, target, test_size=0.2, random_state=42))
+# split sub-train set / validation set from train set
+sub_input, val_input, sub_target, val_target = (
+    train_test_split(train_input, train_target, test_size=0.2, random_state=42))
