@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split, cross_validate, StratifiedKFold, GridSearchCV
+from sklearn.model_selection import train_test_split, cross_validate, StratifiedKFold, GridSearchCV, RandomizedSearchCV
 from sklearn.tree import DecisionTreeClassifier
 from scipy.stats import uniform, randint
 
@@ -69,3 +69,12 @@ params = {'min_impurity_decrease': uniform(0.0001, 0.001),
           'min_samples_split': randint(2, 25),
           'min_samples_leaf': randint(1, 25),
           }
+
+rs = RandomizedSearchCV(DecisionTreeClassifier(random_state=42), params, n_iter=100, n_jobs=-1, random_state=42)
+rs.fit(train_input, train_target)
+
+print("best params combination: ", rs.best_params_)
+print("best CV score: ", np.max(rs.cv_results_['mean_test_score']))
+
+dt = rs.best_estimator_
+print("Train Terminated, Test Score: ", dt.score(test_input, test_target))
