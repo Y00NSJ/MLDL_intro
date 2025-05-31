@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split, cross_validate, StratifiedKFold, GridSearchCV
 from sklearn.tree import DecisionTreeClassifier
+from scipy.stats import uniform, randint
 
 
 # read CSV
@@ -39,19 +40,25 @@ sub_input, val_input, sub_target, val_target = (
 
 ### Tune Hyperparameter
 # 탐색할 매개변수: 탐색할 값 리스트
-params = {'min_impurity_decrease': np.arange(0.0001, 0.001, 0.0001),    # 9
-          'max_depth': range(5, 20, 1),                                 # *15
-          'min_samples_split': range(2, 100, 10)}                       # *10
-gs = GridSearchCV(DecisionTreeClassifier(random_state=42), params, n_jobs=-1)   # 시스템 내 모든 코어 사용해 병렬 실행
-gs.fit(train_input, train_target)
+# params = {'min_impurity_decrease': np.arange(0.0001, 0.001, 0.0001),    # 9
+#           'max_depth': range(5, 20, 1),                                 # *15
+#           'min_samples_split': range(2, 100, 10)}                       # *10
+# gs = GridSearchCV(DecisionTreeClassifier(random_state=42), params, n_jobs=-1)   # 시스템 내 모든 코어 사용해 병렬 실행
+# gs.fit(train_input, train_target)
+#
+# # train a model w/ the best hyperparameter using whole train set
+# dt = gs.best_estimator_
+# print("train terminated, final score: ", dt.score(train_input, train_target))
+#
+# # best hyperparameter and cv scores
+# print("best params combination: ", gs.best_params_)                                 # 최적 매개변수
+# print("cv scores: ", gs.cv_results_['mean_test_score'])                             # 각 매개변수에서 수행한 교차검증의 평균 점수
+# print("best CV score: ", np.max(gs.cv_results_['mean_test_score']))
+# # ... can be expressed as...
+# print(gs.cv_results_['params'][gs.best_index_])                         # 가장 높은 값의 인덱스 사용해 params 키에 저장된 매개변수 출력
 
-# train a model w/ the best hyperparameter using whole train set
-dt = gs.best_estimator_
-print("train terminated, final score: ", dt.score(train_input, train_target))
 
-# best hyperparameter and cv scores
-print("best params combination: ", gs.best_params_)                                 # 최적 매개변수
-print("cv scores: ", gs.cv_results_['mean_test_score'])                             # 각 매개변수에서 수행한 교차검증의 평균 점수
-print("best CV score: ", np.max(gs.cv_results_['mean_test_score']))
-# ... can be expressed as...
-print(gs.cv_results_['params'][gs.best_index_])                         # 가장 높은 값의 인덱스 사용해 params 키에 저장된 매개변수 출력
+### Random Search
+# sampling from uniform distribution
+rgen = randint(0, 10)
+print(rgen.rvs(10))
