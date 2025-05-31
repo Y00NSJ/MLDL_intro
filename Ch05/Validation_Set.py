@@ -38,7 +38,10 @@ sub_input, val_input, sub_target, val_target = (
 
 
 ### Tune Hyperparameter
-params = {'min_impurity_decrease': [0.0001, 0.0002, 0.0003, 0.0004, 0.0005]}    # 탐색할 매개변수: 탐색할 값 리스트
+# 탐색할 매개변수: 탐색할 값 리스트
+params = {'min_impurity_decrease': np.arange(0.0001, 0.001, 0.0001),    # 9
+          'max_depth': range(5, 20, 1),                                 # *15
+          'min_samples_split': range(2, 100, 10)}                       # *10
 gs = GridSearchCV(DecisionTreeClassifier(random_state=42), params, n_jobs=-1)   # 시스템 내 모든 코어 사용해 병렬 실행
 gs.fit(train_input, train_target)
 # train a model w/ the best hyperparameter using whole train set
