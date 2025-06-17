@@ -53,7 +53,14 @@ train_input, test_input, train_target, test_target = train_test_split(data, targ
 
 
 ### XGBoost
-from xgboost import XGBClassifier
-xgb = XGBClassifier(tree_method='hist', random_state=42)    # histogram-based
-scores = cross_validate(xgb, train_input, train_target, return_train_score=True, n_jobs=-1)
+# from xgboost import XGBClassifier
+# xgb = XGBClassifier(tree_method='hist', random_state=42)    # histogram-based
+# scores = cross_validate(xgb, train_input, train_target, return_train_score=True, n_jobs=-1)
+# print(f"train score: {np.mean(scores['train_score'])}\ntest score: {np.mean(scores['test_score'])}")
+
+
+### LightGBM
+from lightgbm import LGBMClassifier
+lgb = LGBMClassifier(random_state=42)
+scores = cross_validate(lgb, train_input, train_target, return_train_score=True, n_jobs=-1)
 print(f"train score: {np.mean(scores['train_score'])}\ntest score: {np.mean(scores['test_score'])}")
