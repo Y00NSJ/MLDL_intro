@@ -40,13 +40,20 @@ train_input, test_input, train_target, test_target = train_test_split(data, targ
 # print("feature importance:", gb.feature_importances_)
 
 ### Hisogram-based Gradient Boosting
-hgb = HistGradientBoostingClassifier(random_state=42)
+# hgb = HistGradientBoostingClassifier(random_state=42)
 # scores = cross_validate(hgb, train_input, train_target, return_train_score=True)
 # print(f"train score: {np.mean(scores['train_score'])}\ntest score: {np.mean(scores['test_score'])}")
-hgb.fit(train_input, train_target)
-print("Training Terminated")
-result = permutation_importance(hgb, train_input, train_target, n_repeats=10, random_state=42, n_jobs=-1)  # 10번 섞음
-print("feature importance of Train Set:",result.importances_mean)
-test_result = permutation_importance(hgb, test_input, test_target, n_repeats=10, random_state=42, n_jobs=-1)
-print("feature importance of Test Set:",test_result.importances_mean)
-print("Test Score:", hgb.score(test_input, test_target))
+# hgb.fit(train_input, train_target)
+# print("Training Terminated")
+# result = permutation_importance(hgb, train_input, train_target, n_repeats=10, random_state=42, n_jobs=-1)  # 10번 섞음
+# print("feature importance of Train Set:",result.importances_mean)
+# test_result = permutation_importance(hgb, test_input, test_target, n_repeats=10, random_state=42, n_jobs=-1)
+# print("feature importance of Test Set:",test_result.importances_mean)
+# print("Test Score:", hgb.score(test_input, test_target))
+
+
+### XGBoost
+from xgboost import XGBClassifier
+xgb = XGBClassifier(tree_method='hist', random_state=42)    # histogram-based
+scores = cross_validate(xgb, train_input, train_target, return_train_score=True, n_jobs=-1)
+print(f"train score: {np.mean(scores['train_score'])}\ntest score: {np.mean(scores['test_score'])}")
