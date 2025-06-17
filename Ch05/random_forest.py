@@ -23,4 +23,4 @@ train_input, test_input, train_target, test_target = train_test_split(data, targ
 ### use OOB sample
 rf = RandomForestClassifier(oob_score=True, n_jobs=-1, random_state=42)
 rf.fit(train_input, train_target)
-print("Evaluation Score using OOB: ", rf.oob_score_)
+print("Evaluation Score using OOB:", rf.oob_score_)
