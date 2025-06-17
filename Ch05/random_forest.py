@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split, cross_validate
-from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier, GradientBoostingClassifier
+from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier, GradientBoostingClassifier, HistGradientBoostingClassifier
 
 
 ### read CSV
@@ -32,8 +32,13 @@ train_input, test_input, train_target, test_target = train_test_split(data, targ
 # print("feature importance:", et.feature_importances_)
 
 ### Gradient Boosting
-gb = GradientBoostingClassifier(random_state=42)
+# gb = GradientBoostingClassifier(random_state=42)
 # scores = cross_validate(gb, train_input, train_target, return_train_score=True, n_jobs=-1)
 # print(f"train score: {np.mean(scores['train_score'])}\ntest score: {np.mean(scores['test_score'])}")
-gb.fit(train_input, train_target)
-print("feature importance:", gb.feature_importances_)
+# gb.fit(train_input, train_target)
+# print("feature importance:", gb.feature_importances_)
+
+### Hisogram-based Gradient Boosting
+hgb = HistGradientBoostingClassifier(random_state=42)
+scores = cross_validate(hgb, train_input, train_target, return_train_score=True)
+print(f"train score: {np.mean(scores['train_score'])}\ntest score: {np.mean(scores['test_score'])}")
