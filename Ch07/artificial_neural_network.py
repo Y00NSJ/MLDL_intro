@@ -38,3 +38,10 @@ inputs = keras.layers.Input(shape=(784,))
 dense = keras.layers.Dense(10, activation='softmax')    # 뉴런의 출력값을 확률로 변경
 # 신경망 모델 생성
 model = keras.models.Sequential([inputs, dense])
+
+# 훈련 전 설정
+model.compile(loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+# 훈련
+model.fit(train_scaled, train_target, epochs=5)
+# 검증 셋을 통해 성능 확인
+model.evaluate(val_scaled, val_target)
