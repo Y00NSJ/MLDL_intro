@@ -60,7 +60,7 @@ train_input, test_input, train_target, test_target = train_test_split(data, targ
 
 
 ### LightGBM
-from lightgbm import LGBMClassifier
-lgb = LGBMClassifier(random_state=42)
-scores = cross_validate(lgb, train_input, train_target, return_train_score=True, n_jobs=-1)
-print(f"train score: {np.mean(scores['train_score'])}\ntest score: {np.mean(scores['test_score'])}")
+# from lightgbm import LGBMClassifier
+# lgb = LGBMClassifier(random_state=42)
+# scores = cross_validate(lgb, train_input, train_target, return_train_score=True, n_jobs=-1)
+# print(f"train score: {np.mean(scores['train_score'])}\ntest score: {np.mean(scores['test_score'])}")
