@@ -43,5 +43,5 @@ model = keras.models.Sequential([inputs, dense])
 model.compile(loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 # 훈련
 model.fit(train_scaled, train_target, epochs=5)
-# 검증 셋을 통해 성능 확인
+# 검증 셋을 통해 성능 평가
 model.evaluate(val_scaled, val_target)
