@@ -36,7 +36,7 @@ model.add(keras.layers.Dense(10, activation='softmax', name='출력층'))
 model.summary()
 
 ### 생성한 DNN 훈련
-model.compile(loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+model.compile(optimizer='sgd', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 model.fit(train_scaled, train_target, epochs=5)
 
 # 검증 세트에서의 성능 확인
