@@ -1,6 +1,7 @@
 from torchvision.datasets import FashionMNIST
 from sklearn.model_selection import train_test_split
 import torch.nn as nn
+from torchinfo import summary
 
 
 ### 데이터 다운로드
@@ -22,3 +23,5 @@ model = nn.Sequential(                          # 케라스와 달리 모델 입
     nn.ReLU(),                                  # 활성 함수는 별도 층으로 추가
     nn.Linear(100, 10)    # 출력층의 활성함수 생략
 )
+
+summary(model, input_size=(32, 28, 28))     # 배치 크기를 32로 가정(한 번에 32개의 샘플이 모델에 입력
