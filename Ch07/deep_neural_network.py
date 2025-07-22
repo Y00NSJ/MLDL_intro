@@ -40,7 +40,8 @@ model.summary()
 # sgd = keras.optimizers.SGD(learning_rate=0.1)   # 학습률 지정
 # sgd = keras.optimizers.SGD(momentum=0.9, nesterov=True) # 네스테로프 모멘텀 최적화
 adagrad = keras.optimizers.Adagrad()
-model.compile(optimizer=adagrad, loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+rmsprop = keras.optimizers.RMSprop()
+model.compile(optimizer=rmsprop, loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 model.fit(train_scaled, train_target, epochs=5)
 
 # 검증 세트에서의 성능 확인
