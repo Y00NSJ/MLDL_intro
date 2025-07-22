@@ -20,8 +20,16 @@ dense2 = keras.layers.Dense(10, activation='softmax')
 
 ### DNN 생성
 # model = keras.Sequential([inputs, dense1, dense2])  # 입력층은 맨 앞에, 출력층은 맨 뒤에
-model = keras.Sequential([
-    keras.layers.Dense(100, activation='sigmoid', name='은닉층'),
-    keras.layers.Dense(10, activation='softmax', name='출력층')
-], name='패션 MNIST 모델')
+
+# model = keras.Sequential([
+#     keras.layers.Input(shape=(784,)),
+#     keras.layers.Dense(100, activation='sigmoid', name='은닉층'),
+#     keras.layers.Dense(10, activation='softmax', name='출력층')
+# ], name='패션 MNIST 모델')
+
+model = keras.Sequential()
+model.add(keras.layers.Input(shape=(784,)))
+model.add(keras.layers.Dense(100, activation='sigmoid', name='은닉층'))
+model.add(keras.layers.Dense(10, activation='softmax', name='출력층'))
+
 model.summary()
