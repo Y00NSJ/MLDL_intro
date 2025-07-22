@@ -17,3 +17,7 @@ inputs = keras.layers.Input(shape=(784,))
 dense1 = keras.layers.Dense(100, activation='sigmoid')
 # 출력층: softmax 사용
 dense2 = keras.layers.Dense(10, activation='softmax')
+
+### DNN 생성
+model = keras.Sequential([inputs, dense1, dense2])  # 입력층은 맨 앞에, 출력층은 맨 뒤에
+model.summary()
