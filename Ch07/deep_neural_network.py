@@ -28,7 +28,8 @@ dense2 = keras.layers.Dense(10, activation='softmax')
 # ], name='패션 MNIST 모델')
 
 model = keras.Sequential()
-model.add(keras.layers.Input(shape=(784,)))
+model.add(keras.layers.Input(shape=(28,28)))    # 1차원으로 펼친 크기가 아닌 원본 이미지 크기로 압력 지정
+model.add(keras.layers.Flatten())               # 1차원으로 펼쳐줌
 model.add(keras.layers.Dense(100, activation='sigmoid', name='은닉층'))
 model.add(keras.layers.Dense(10, activation='softmax', name='출력층'))
 
