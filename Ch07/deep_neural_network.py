@@ -36,7 +36,9 @@ model.add(keras.layers.Dense(10, activation='softmax', name='출력층'))
 model.summary()
 
 ### 생성한 DNN 훈련
-sgd = keras.optimizers.SGD(learning_rate=0.1)
+# sgd = keras.optimizers.SGD()    # 기본적인 확률적 경사하강법
+# sgd = keras.optimizers.SGD(learning_rate=0.1)   # 학습률 지정
+sgd = keras.optimizers.SGD(momentum=0.9, nesterov=True) # 네스테로프 모멘텀 최적화
 model.compile(optimizer=sgd, loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 model.fit(train_scaled, train_target, epochs=5)
 
