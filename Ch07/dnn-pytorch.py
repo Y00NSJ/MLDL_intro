@@ -2,6 +2,7 @@ from torchvision.datasets import FashionMNIST
 from sklearn.model_selection import train_test_split
 import torch.nn as nn
 from torchinfo import summary
+import torch
 
 
 ### 데이터 다운로드
@@ -25,3 +26,8 @@ model = nn.Sequential(                          # 케라스와 달리 모델 입
 )
 
 summary(model, input_size=(32, 28, 28))     # 배치 크기를 32로 가정(한 번에 32개의 샘플이 모델에 입력
+
+### 모델 훈련
+# 모델을 GPU로 이동 (PyTorch는 명시 지정해 GPU에서 수행할 연산을 구체적으로 제어 가능(유연))
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+model = model.to(device)
