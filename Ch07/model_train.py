@@ -18,3 +18,11 @@ def model_fn(a_layer=None):
     model.add(keras.layers.Dense(10, activation='softmax'))
     return model
 
+## 3개 층 모델 생성
+model = model_fn()
+model.summary()
+
+# 모델 훈련 후 결과 history 객체 확인
+model.compile(loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+history = model.fit(train_scaled, train_target, epochs=5, verbose=0)
+print(history.history.keys())
