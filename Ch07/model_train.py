@@ -55,5 +55,7 @@ plt.ylabel('loss')
 plt.legend()
 plt.show()
 
-# 모델 저장
+# 모델 구조 및 파라미터 저장
 model.save('model-whole.keras')
+# 훈련된 모델의 파라미터만 저장
+model.save_weights('model.weights.h5')
