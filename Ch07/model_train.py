@@ -1,6 +1,8 @@
 import keras
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
+import numpy as np
+
 
 ### 데이터 전처리
 (train_input, train_target), (test_input, test_target) = keras.datasets.fashion_mnist.load_data()
@@ -59,3 +61,7 @@ plt.show()
 model.save('model-whole.keras')
 # 훈련된 모델의 파라미터만 저장
 model.save_weights('model.weights.h5')
+
+### 모델 생성 후 훈련 생략, 저장했던 파일에서 파라미터 읽어 사용
+model_wo_train = model_fn(keras.layers.Dropout(0.3))
+model.load_weights('model.weights.h5')      # 정확히 같은 구조의 모델이어야만 불러오기 가능
