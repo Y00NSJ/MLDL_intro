@@ -24,7 +24,7 @@ model.summary()
 
 # 모델 훈련 후 결과 history 객체 확인
 model.compile(loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-history = model.fit(train_scaled, train_target, epochs=20, verbose=0)
+history = model.fit(train_scaled, train_target, epochs=20, verbose=0, validation_data=(val_scaled, val_target))
 # print(history.history.keys())
 # 에포크 별 손실 도식화
 plt.plot(history.history['loss'])
