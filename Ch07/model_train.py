@@ -79,3 +79,6 @@ model_callback = model_fn(keras.layers.Dropout(0.3))
 model_callback.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 checkpoint_cb = keras.callbacks.ModelCheckpoint('best-model.keras', save_best_only=True)
 model_callback.fit(train_scaled, train_target, epochs=20, verbose=0, validation_data=(val_scaled, val_target), callbacks=[checkpoint_cb])
+# 모델을 읽어 예측 진행
+model = keras.models.load_model('best-model.keras')
+model.evaluate(val_scaled, val_target)
