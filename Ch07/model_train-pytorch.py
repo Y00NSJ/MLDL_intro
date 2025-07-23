@@ -36,3 +36,17 @@ patience = 2                     # 검증 손실이 향상될 때까지의 에�
 best_loss = -1                   # 최상 손실 기록
 early_stopping_counter = 0       # 연속적으로 검증 손실이 향상되지 않은 에포크 횟수 기록; patience 이상일 시 종료
 
+epochs = 20
+batches = int(len(train_scaled)/32)
+for epoch in range(epochs):
+    model.train()
+    train_loss = 0
+    for i in range(batches):
+        inputs = train_scaled[i*32:(i+1)*32].to(device)
+        targets = train_target[i*32:(i+1)*32].to(device)
+        optimizer.zero_grad()
+        outputs = model(inputs)
+        loss = criterion(outputs, targets)
+        loss.backward()
+        optimizer.step()
+        train_loss += loss.item()
