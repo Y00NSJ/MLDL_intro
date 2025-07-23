@@ -3,6 +3,7 @@ from sklearn.model_selection import train_test_split
 import torch.nn as nn
 from torchinfo import summary
 import torch
+import torch.optim as optim
 
 
 ### 데이터 다운로드
@@ -31,3 +32,7 @@ summary(model, input_size=(32, 28, 28))     # 배치 크기를 32로 가정(한 
 # 모델을 GPU로 이동 (PyTorch는 명시 지정해 GPU에서 수행할 연산을 구체적으로 제어 가능(유연))
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = model.to(device)
+
+# 손실 함수 및 옵티마이저 준비
+criterion = nn.CrossEntropyLoss()       # 소프트맥스 함수 계산 + 크로스 엔트로피 계산이 합쳐져 있음 -> 출력층에 소프트맥스 추가하지 않아도 됨
+optimizer = optim.Adam(model.parameters())  # 최적화시킬 파이토치 텐서 전달; 훈련 가능한 모든 파라미터 전달(제너레이터 객체 호출)하는 메서드 사용
