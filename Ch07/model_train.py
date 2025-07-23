@@ -1,6 +1,6 @@
 import keras
 from sklearn.model_selection import train_test_split
-
+import matplotlib.pyplot as plt
 
 ### 데이터 전처리
 (train_input, train_target), (test_input, test_target) = keras.datasets.fashion_mnist.load_data()
@@ -26,3 +26,13 @@ model.summary()
 model.compile(loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 history = model.fit(train_scaled, train_target, epochs=5, verbose=0)
 print(history.history.keys())
+# 에포크 별 손실 도식화
+plt.plot(history.history['loss'])
+plt.xlabel('epoch')
+plt.ylabel('loss')
+plt.show()
+# 에포크 별 정확도 도식화
+plt.plot(history.history['accuracy'])
+plt.xlabel('epoch')
+plt.ylabel('accuracy')
+plt.show()
