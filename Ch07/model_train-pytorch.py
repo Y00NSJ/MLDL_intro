@@ -63,3 +63,13 @@ for epoch in range(epochs):
     val_hist.append(val_loss)
     print(f"에포크: {epoch+1}",
           f"훈련 손실: {train_loss/batches:.4f}, 검증 손실: {val_loss:.4f}")
+    ## 조기 종료
+    if best_loss == -1 or val_loss < best_loss:     # 첫 번째 에포크이거나 검증 손실 이전에 기록된 최상의 손실보다 작으면
+        best_loss = val_loss                        # 최상의 손실을 현재 검증 손실로 업데이트
+        early_stopping_counter = 0                  # 조기 종료 카운터를 0으로 초기화 => 검증 손실이 더 좋아지지 않더라도 patience 횟수만큼 인내
+        torch.save(model.state_dict(), 'best_model.pt')     # 최상의 검증 손실을 산출한 모델을 저장(구조+파라미터)
+    else:                                           # 검증 손실이 더 나아지지 않았다면
+        early_stopping_counter += 1                 # 카운터 증가
+        if early_stopping_counter >= patience:      # 카운터가 patience보다 크면 조기종료
+            print(f"{epoch+1}번째 에포크에서 조기 종료되었습니다.")
+            break
