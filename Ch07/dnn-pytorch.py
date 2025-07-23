@@ -64,3 +64,22 @@ for epoch in range(epochs):
         train_loss += loss.item()   # 스칼라를 가진 텐서 객체를 파이썬 타입으로 변환
     # 에포크 손실 출력
     print(f"에포크: {epoch + 1}, 손실: {train_loss/batches:.4f}")
+
+### 검증 셋을 사용해 모델 평가
+# 모델을 평가 모드로 설정
+model.eval()
+# 훈련이 아니므로 그래디언트 계산 제외: 메모리 및 계산량 절약
+with torch.no_grad():
+    # 검증 셋 및 타겟을 GPU 적재
+    val_scaled = val_scaled.to(device)
+    val_target = val_target.to(device)
+    # 모델 출력 계산
+    outputs = model(val_scaled)     # 검증 셋의 샘플 12,000개에 대해 타깃 클래스마다 출력한 값
+    # 각 샘플마다 가장 큰 값의 인덱스 추출 => 예측 클래스 생성
+    predicts = torch.argmax(outputs, 1)     # 두 번째 축을 따라가 가장 큰 값의 인덱스를 저장
+    # 예측 클래스와 val_target 비교 후 -> 올바르게 예측한 개수를 세어 저장
+    corrects = (predicts == val_target).sum().item()
+
+# 정확도 계산
+accuracy = corrects / len(val_target)
+print(f"검증 정확도: {accuracy:.4f}")
