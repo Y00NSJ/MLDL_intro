@@ -3,6 +3,7 @@ from torchvision.datasets import FashionMNIST
 import torch.nn as nn
 import torch
 import torch.optim as optim
+import matplotlib.pyplot as plt
 
 
 ### 데이터 로드 및 전처리
@@ -73,3 +74,11 @@ for epoch in range(epochs):
         if early_stopping_counter >= patience:      # 카운터가 patience보다 크면 조기종료
             print(f"{epoch+1}번째 에포크에서 조기 종료되었습니다.")
             break
+
+# 손실 추이 도식화
+plt.plot(train_hist, label='train')
+plt.plot(val_hist, label='val')
+plt.xlabel('epoch')
+plt.ylabel('loss')
+plt.legend()
+plt.show()
