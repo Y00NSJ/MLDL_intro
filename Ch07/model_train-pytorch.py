@@ -82,3 +82,17 @@ plt.xlabel('epoch')
 plt.ylabel('loss')
 plt.legend()
 plt.show()
+
+### 저장한 모델 불러오기
+model.load_state_dict(torch.load('best_model.pt', weights_only=True))   # 저장한 모델 파라미터를 읽은 후 해당 파라미터로 model 객체 업데이트
+# 최상의 모델을 사용해 검증 세트에 대한 성능 확인
+model.eval()
+with torch.no_grad():
+    val_scaled = val_scaled.to(device)
+    val_target = val_target.to(device)
+    outputs = model(val_scaled)
+    predicts = torch.argmax(outputs, 1)
+    corrects = (predicts == val_target).sum().item()
+
+accuracy = corrects / len(val_target)
+print(f"검증 정확도: {accuracy:.4f}")
