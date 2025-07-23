@@ -82,3 +82,21 @@ model_callback.fit(train_scaled, train_target, epochs=20, verbose=0, validation_
 # 모델을 읽어 예측 진행
 model = keras.models.load_model('best-model.keras')
 model.evaluate(val_scaled, val_target)
+
+### Callback, EarlyStopping 사용
+model = model_fn(keras.layers.Dropout(0.3))
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+checkpoint_cb = keras.callbacks.ModelCheckpoint('best-model.keras', save_best_only=True)
+early_stopping_cb = keras.callbacks.EarlyStopping(patience=2, restore_best_weights=True)
+history = model.fit(train_scaled, train_target, epochs=20, verbose=0, validation_data=(val_scaled, val_target),callbacks=[checkpoint_cb, early_stopping_cb])
+# 몇 번째 에포크에서 훈련이 중지되었는지 확인
+print(f"훈련 중지 시점: {early_stopping_cb.stopped_epoch}")   # patience=2이므로 -1한 에포크가 최상의 모델
+# 에포크 별 손실 도식화
+plt.plot(history.history['loss'], label='train')
+plt.plot(history.history['val_loss'], label='val')
+plt.xlabel('epoch')
+plt.ylabel('loss')
+plt.legend()
+plt.show()
+# 검증 셋 성능 확인
+model.evaluate(val_scaled, val_target)
