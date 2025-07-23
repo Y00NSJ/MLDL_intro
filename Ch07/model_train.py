@@ -69,3 +69,7 @@ model.load_weights('model.weights.h5')      # 정확히 같은 구조의 모델�
 # 검증 정확도 확인; 12000개 샘플의 10개 클래스에 대한 확률을 모두 확인하는 대신, 10개 중 가장 큰 값의 인덱스만 골라 타겟 레이블과 비교
 val_labels = np.argmax(model.predict(val_scaled), axis=-1)  # 새로운 데이터에 대한 정확도만 계산하므로 compile, evaluate 미사용
 print(np.mean(val_labels == val_target))    # 인덱스-타깃 값 같으면 1(맞음), 다르면 0(틀림)
+
+### 모델 파일에서 새로운 모델을 생성해 바로 사용
+model_saved = keras.models.load_model('model-whole.keras')
+model.evaluate(val_scaled, val_target)
