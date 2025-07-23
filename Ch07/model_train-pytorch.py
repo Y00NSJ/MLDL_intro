@@ -50,3 +50,12 @@ for epoch in range(epochs):
         loss.backward()
         optimizer.step()
         train_loss += loss.item()
+    # 검증 손실 계산
+    model.eval()
+    val_loss = 0
+    with torch.no_grad():
+        val_scaled = val_scaled.to(device)
+        val_target = val_target.to(device)
+        outputs = model(val_scaled)
+        loss = criterion(outputs, val_target)
+        val_loss += loss.item()
