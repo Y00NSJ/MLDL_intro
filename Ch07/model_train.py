@@ -31,9 +31,26 @@ plt.plot(history.history['loss'], label='train')
 plt.plot(history.history['val_loss'], label='val')
 plt.xlabel('epoch')
 plt.ylabel('loss')
+plt.legend()
 plt.show()
 # 에포크 별 정확도 도식화
 plt.plot(history.history['accuracy'])
 plt.xlabel('epoch')
 plt.ylabel('accuracy')
+plt.legend()
+plt.show()
+
+### 드롭아웃 층 추가
+model = model_fn(keras.layers.Dropout(0.3))
+model.summary()
+
+# 평가/예측 시엔 자동으로 드롭아웃 미적용
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+history = model.fit(train_scaled, train_target, epochs=20, verbose=0, validation_data=(val_scaled, val_target))
+# 에포크 별 손실 도식화
+plt.plot(history.history['loss'], label='train')
+plt.plot(history.history['val_loss'], label='val')
+plt.xlabel('epoch')
+plt.ylabel('loss')
+plt.legend()
 plt.show()
