@@ -59,3 +59,7 @@ for epoch in range(epochs):
         outputs = model(val_scaled)
         loss = criterion(outputs, val_target)
         val_loss += loss.item()
+    train_hist.append(train_loss/batches)
+    val_hist.append(val_loss)
+    print(f"에포크: {epoch+1}",
+          f"훈련 손실: {train_loss/batches:.4f}, 검증 손실: {val_loss:.4f}")
