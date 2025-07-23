@@ -38,14 +38,29 @@ criterion = nn.CrossEntropyLoss()       # 소프트맥스 함수 계산 + 크로
 optimizer = optim.Adam(model.parameters())  # 최적화시킬 파이토치 텐서 전달; 훈련 가능한 모든 파라미터 전달(제너레이터 객체 호출)하는 메서드 사용
 
 ## 훈련
+epochs = 5
+batches = int(len(train_scaled) / 32)   # 샘플 차원의 크기 / 32 = 배치 횟수
 # loop: 에포크 반복
+for epoch in range(epochs):
     # 에포크 손실 변수 초기화
+    model.train()       # 모델을 훈련 모드로 설정; 특정 층이 훈련할 때/평가할 때 각각 다르게 동작하므로 명시 필요
+    train_loss = 0      # 훈련 손실 기록 변수
     # loop: 미니 배치 반복 (경사 하강법 진행)
+    for i in range(batches):
         # '배치 입력' 및 타겟 준비
+        inputs = train_scaled[i*32:(i+1)*32].to(device)     # 배치 데이터(32개씩) 덜어냄 -> 결과 텐서를 GPU에 적재
+        targets = train_target[i*32:(i+1)*32].to(device)
         # 옵티마이저의 그래디언트(손실 함수의 정상에서 내려가야 할 방향과 크기를 알려주는 값) 초기화; 배치마다 새로이 계산해야 하므로
+        optimizer.zero_grad()
         # forward pass=forward propagation: 모델에 입력 전달해 출력 생성
+        outputs = model(inputs)
         # '모델의 출력' + 타깃을 손실 함수에 전달해 손실 계산
+        loss = criterion(outputs, targets)  # 배치에 있는 샘플에 대한 손실의 평균
         # 손실 역전파: 손실을 출력층 -> 입력층으로 거꾸로 전달해 각 층의 모델 파라미터에 대한 그레디언트 계산
+        loss.backward()
         # 모델 파라미터 업데이트: 계산된 그레디언트를 사용해 손실함수가 감소되는 방향으로 개선
+        optimizer.step()
         # 에포크 손실 기록
+        train_loss += loss.item()   # 스칼라를 가진 텐서 객체를 파이썬 타입으로 변환
     # 에포크 손실 출력
+    print(f"에포크: {epoch + 1}, 손실: {train_loss/batches:.4f}")
