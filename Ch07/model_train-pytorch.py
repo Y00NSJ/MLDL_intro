@@ -29,3 +29,10 @@ model = model.to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters())
 
+### 모델 훈련
+train_hist = []                  # 에포크별 훈련 손실 기록
+val_hist = []                    # 에포크별 검증 손실 기록
+patience = 2                     # 검증 손실이 향상될 때까지의 에포크 횟수
+best_loss = -1                   # 최상 손실 기록
+early_stopping_counter = 0       # 연속적으로 검증 손실이 향상되지 않은 에포크 횟수 기록; patience 이상일 시 종료
+
