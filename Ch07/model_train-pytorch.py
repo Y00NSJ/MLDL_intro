@@ -24,7 +24,7 @@ model = nn.Sequential(
     nn.Linear(100, 10)
 )
 # 모델을 GPU에 적재
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device('mps' if torch.backends.mps.is_available() else 'cpu')
 model = model.to(device)
 # 손실 함수 및 옵티마이저 준비
 criterion = nn.CrossEntropyLoss()

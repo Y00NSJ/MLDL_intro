@@ -30,7 +30,8 @@ summary(model, input_size=(32, 28, 28))     # 배치 크기를 32로 가정(한 
 
 ### 모델 훈련
 # 모델을 GPU로 이동 (PyTorch는 명시 지정해 GPU에서 수행할 연산을 구체적으로 제어 가능(유연))
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device('mps' if torch.backends.mps.is_available() else 'cpu')
+if device == torch.device('mps'): print("Apple Silicon의 MPS 사용")
 model = model.to(device)
 
 # 손실 함수 및 옵티마이저 준비
