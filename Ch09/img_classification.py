@@ -1,6 +1,7 @@
 import keras
 from sklearn.model_selection import train_test_split
 
+from Ch07.model_train import early_stopping_cb
 
 (train_input, train_target), (test_input, test_target) = keras.datasets.fashion_mnist.load_data()
 train_scaled =  train_input.reshape(-1, 28, 28, 1) / 255.0      # flatten 없이, 2차원 배열에 차원 추가 -> (28,28,1)*48000개
@@ -29,3 +30,10 @@ model.add(keras.layers.Dense(10, activation='softmax'))
 
 model.summary()
 keras.utils.plot_model(model, show_shapes=True)   # 층의 구성 도식화
+
+### 모델 컴파일 및 훈련
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+checkpoint_cb = keras.callbacks.ModelCheckpoint('best-cnn-model.keras', save_best_only=True)
+early_stopping_cb = keras.callbacks.EarlyStopping(patience=2, restore_best_weights=True)
+
+history = model.fit(train_scaled, train_target, epochs=20, validation_data=(val_scaled, val_target), callbacks=[checkpoint_cb, early_stopping_cb])
