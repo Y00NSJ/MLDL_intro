@@ -60,3 +60,8 @@ plt.bar(range(1, 11), preds[0])
 plt.xlabel('class')
 plt.ylabel('predicted probability')
 plt.show()
+
+### 최종: 테스트 셋으로 일반화 성능 측정
+# 실전 투입 시 얻을 수 있는 예상 성능
+test_scaled = test_input.reshape(-1, 28, 28, 1) / 255.0
+model.evaluate(test_scaled, test_target)
