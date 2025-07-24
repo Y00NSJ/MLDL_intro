@@ -1,6 +1,7 @@
 import keras
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 (train_input, train_target), (test_input, test_target) = keras.datasets.fashion_mnist.load_data()
@@ -48,3 +49,14 @@ plt.show()
 
 ### 성능 평가
 model.evaluate(val_scaled, val_target)
+
+### 새로운 데이터에 대한 예측 진행
+# 편의 상 검증 셋의 첫 번째 샘플을 처음 본 이미지라고 가정
+preds = model.predict(val_scaled[0:1])  # 슬라이싱은 인덱싱과 다르게 선택된 원소가 1개여도 전체 차원을 유지->입력의 첫 번째 차원은 배치 차원
+print("예측 결과: 가방")
+print(preds)
+# 예측 결과를 막대그래프로 도식화
+plt.bar(range(1, 11), preds[0])
+plt.xlabel('class')
+plt.ylabel('predicted probability')
+plt.show()
