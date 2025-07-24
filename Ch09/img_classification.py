@@ -34,7 +34,7 @@ keras.utils.plot_model(model, show_shapes=True)   # 층의 구성 도식화
 ### 모델 컴파일 및 훈련
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 checkpoint_cb = keras.callbacks.ModelCheckpoint('best-cnn-model.keras', save_best_only=True)
-early_stopping_cb = keras.callbacks.EarlyStopping(patience=2, restore_best_weights=True)
+early_stopping_cb = keras.callbacks.EarlyStopping(patience=2, restore_best_weights=True)    # cp가 저장한 모델을 불러오지 않아도, 이미 현재 최적 파라미터로 복원되어 있음
 
 history = model.fit(train_scaled, train_target, epochs=20, validation_data=(val_scaled, val_target), callbacks=[checkpoint_cb, early_stopping_cb])
 
@@ -45,3 +45,6 @@ plt.xlabel('epoch')
 plt.ylabel('loss')
 plt.legend()
 plt.show()
+
+### 성능 평가
+model.evaluate(val_scaled, val_target)
