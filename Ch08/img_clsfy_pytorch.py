@@ -13,4 +13,28 @@ train_scaled = train_input.reshape(-1, 1, 28, 28) / 255.0   # 배치 차원, 채
 
 train_scaled, val_scaled, train_target, val_target = train_test_split(train_scaled, train_target, test_size=0.2, random_state=42)
 
-### CNN 구성
+### CNN 구성: 모델 객체 생성 후 층을 하나씩 추가
+model = nn.Sequential()
+# 합성곱 층
+model.add_module('conv1', nn.Conv2d(1, 32, kernel_size=3, padding='same'))  # 입력채널 수, 출력채널=필터 수
+# 활성 함수
+model.add_module('relu1', nn.ReLU())
+# 풀링 층
+model.add_module('pool1', nn.MaxPool2d(2))
+# 2nd 합성곱 층
+model.add_module('conv2', nn.Conv2d(32, 64, kernel_size=3, padding='same'))
+# 2nd 활성 함수
+model.add_module('relu2', nn.ReLU())
+# 2nd 풀링 층
+model.add_module('pool2', nn.MaxPool2d(2))
+# Flatten 층 => 7*7*64
+model.add_module('flatten', nn.Flatten())
+# 밀집층
+model.add_module('dense1', nn.Linear(7 * 7 * 64, 100))
+# 활성 함수
+model.add_module('relu3', nn.ReLU())
+# 드롭아웃
+model.add_module('dropout', nn.Dropout(0.3))
+# 출력층
+model.add_module('dense2', nn.Linear(100, 10))
+
