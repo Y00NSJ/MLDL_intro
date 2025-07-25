@@ -56,6 +56,6 @@ optimizer = optim.Adam(model.parameters())
 # 데이터 묶기
 train_dataset = TensorDataset(train_scaled, train_target)
 val_dataset = TensorDataset(val_scaled, val_target)
-
+# 배치 생성
 train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=32)      # 검증 셋은 훈련이 아니므로 섞을 필요 X
