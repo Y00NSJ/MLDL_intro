@@ -1,6 +1,8 @@
 from torchvision.datasets import FashionMNIST
 from sklearn.model_selection import train_test_split
 import torch.nn as nn
+import torch
+import torch.optim as optim
 
 
 ### 전처리
@@ -29,6 +31,8 @@ model.add_module('relu2', nn.ReLU())
 model.add_module('pool2', nn.MaxPool2d(2))
 # Flatten 층 => 7*7*64
 model.add_module('flatten', nn.Flatten())
+outputs = model(torch.ones(1, 1, 28, 28))   # 값이 모두 1로 채워진 배열을 전달해 출력의 크기 확인
+print(outputs.shape)                        # [1, 3136], 1은 배치 차원에 담긴 샘플 개수
 # 밀집층
 model.add_module('dense1', nn.Linear(7 * 7 * 64, 100))
 # 활성 함수
@@ -38,3 +42,10 @@ model.add_module('dropout', nn.Dropout(0.3))
 # 출력층
 model.add_module('dense2', nn.Linear(100, 10))
 
+### 훈련
+# GPU로 모델 전달
+device = torch.device('mps' if torch.backends.mps.is_available() else 'cpu')
+model.to(device)
+# 옵티마이저 준비
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.parameters())
