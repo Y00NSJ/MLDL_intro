@@ -133,3 +133,22 @@ with torch.no_grad():
 
 accuracy = corrects / len(val_dataset)
 print(f"검증 정확도: {accuracy:.4f}")
+
+### 최종: 테스트 셋에 대한 정확도 계산
+test_scaled = fm_test.data.reshape(-1, 1, 28, 28) / 255.0
+test_target = fm_test.targets
+# 데이터 로더 준비
+test_dataset = TensorDataset(test_scaled, test_target)
+test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
+# 정확도 구하기
+model.eval()
+corrects = 0
+with torch.no_grad():
+    for inputs, targets in test_loader:
+        inputs, targets = inputs.to(device), targets.to(device)
+        outputs = model(inputs)
+        predicts = torch.argmax(outputs, 1)
+        corrects += (predicts == targets).sum().item()
+
+accuracy = corrects / len(test_dataset)
+print(f"테스트 정확도: {accuracy:.4f}")
