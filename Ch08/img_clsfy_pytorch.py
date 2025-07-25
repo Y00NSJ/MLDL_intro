@@ -81,3 +81,31 @@ for epoch in range(epochs):
         optimizer.step()
         train_loss += loss.item()
 
+    # 검증 손실 계산
+    model.eval()
+    val_loss = 0    # 검증 손실을 누적 기록
+    with torch.no_grad():
+        for inputs, targets in val_loader:
+            inputs, targets = inputs.to(device), targets.to(device)
+            outputs = model(inputs)
+            loss = criterion(outputs, targets)
+            val_loss += loss.item()
+
+    # 누적 훈련 손실과 검증 손실을 각각 배치 횟수로 나눔: 데이터로더의 len()이 반복 횟수 반환
+    train_loss = train_loss / len(train_loader)
+    val_loss = val_loss / len(val_loader)
+    train_hist.append(train_loss)
+    val_hist.append(val_loss)
+    print(f"에포크:{epoch + 1},",
+          f"훈련 손실:{train_loss:.4f}, 검증 손실:{val_loss:.4f}")
+
+    # Early Stopping
+    if best_loss == -1 or val_loss < best_loss:
+        best_loss = val_loss
+        early_stopping_counter = 0
+        torch.save(model.state_dict(), 'best_cnn_model.pt')
+    else:
+        early_stopping_counter += 1
+        if early_stopping_counter >= patience:
+            print(f"{epoch + 1}번째 에포크에서 조기 종료되었습니다.")
+            break
