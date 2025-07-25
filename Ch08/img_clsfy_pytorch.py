@@ -119,3 +119,17 @@ plt.ylabel('loss')
 plt.legend()
 plt.show()
 
+# early stopped된 모델 로드해 검증 세트에 대한 정확도 확인
+model.load_state_dict(torch.load('best_cnn_model.pt', weights_only=True))
+
+model.eval()
+corrects = 0        # 값 누적용
+with torch.no_grad():
+    for inputs, targets in val_loader:
+        inputs, targets = inputs.to(device), targets.to(device)
+        outputs = model(inputs)
+        predicts = torch.argmax(outputs, 1)
+        corrects += (predicts == targets).sum().item()
+
+accuracy = corrects / len(val_dataset)
+print(f"검증 정확도: {accuracy:.4f}")
