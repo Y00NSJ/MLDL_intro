@@ -51,7 +51,8 @@ model.to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters())
 
-# 훈련 셋을 배치 크기로 하드코딩식 나눗셈하는 대신, PyTorch의 Data Loader 활용; 에포크마다 훈련 셋 섞는 기능까지 포함
-# 미니 배치 경사 하강법에선 에포크마다 훈련 샘플을 섞음으로써 샘플 순서에서 발생하는 편향 예방
+## 훈련 셋을 배치 크기로 하드코딩식 나눗셈하는 대신, PyTorch의 Data Loader 활용; 에포크마다 훈련 셋 섞는 기능까지 포함
+## 미니 배치 경사 하강법에선 에포크마다 훈련 샘플을 섞음으로써 샘플 순서에서 발생하는 편향 예방
+# 데이터 묶기
 train_dataset = TensorDataset(train_scaled, train_target)
 val_dataset = TensorDataset(val_scaled, val_target)
