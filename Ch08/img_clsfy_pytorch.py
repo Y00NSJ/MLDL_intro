@@ -59,3 +59,25 @@ val_dataset = TensorDataset(val_scaled, val_target)
 # 배치 생성
 train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=32)      # 검증 셋은 훈련이 아니므로 섞을 필요 X
+
+# 훈련: 데이터로더를 사용하므로 batches 변수 불필요
+train_hist = []
+val_hist = []
+patience = 2
+best_loss = -1
+early_stopping_counter = 0
+
+epochs = 20
+for epoch in range(epochs):
+    model.train()
+    train_loss = 0
+    # 데이터 로더가 입력과 타깃을 자동으로 배치 단위 전달
+    for inputs, targets in train_loader:
+        inputs, targets = inputs.to(device), targets.to(device)
+        optimizer.zero_grad()
+        outputs = model(inputs)
+        loss = criterion(outputs, targets)
+        loss.backward()
+        optimizer.step()
+        train_loss += loss.item()
+
