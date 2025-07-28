@@ -32,3 +32,8 @@ no_training_model.add(keras.layers.Conv2D(32, kernal_size=3, activation='relu', 
 no_training_conv = no_training_model.layers[0]
 no_training_weights = no_training_conv.weights[0].numpy()
 print(f"가중치 평균: {conv_weights.mean()}, 가중치 표준편차: {conv_weights.std()}") # 0에 근접 / 이전 모델보다 매우 작음
+# 시각화
+plt.hist(conv_weights.reshape(-1, 1))   # 1차원 배열로 전달
+plt.xlabel('weights')
+plt.ylabel('count')
+plt.show()
