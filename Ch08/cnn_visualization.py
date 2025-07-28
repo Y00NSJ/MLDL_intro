@@ -53,3 +53,10 @@ dense2 = keras.layers.Dense(10, activation='softmax')
 hidden = dense1(inputs)     # inputs를 Dense1 층에 통과시킨 후 출력값을 hidden에 할당
 outputs = dense2(hidden)
 func_model = keras.Model(inputs=inputs, outputs=outputs)
+
+
+### 특성 맵 시각화
+# 패션 MNIST 데이터셋 읽어오기
+(train_input, train_target), (test_input, test_target) = keras.datasets.fashion_mnist.load_data()
+plt.imshow(train_input[0], cmap='gray_r')
+plt.show()
