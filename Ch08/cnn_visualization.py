@@ -8,7 +8,7 @@ model = keras.models.load_model('best-cnn-model.keras')
 
 ### 첫 번째 합성곱 층의 가중치 조사
 conv = model.layers[0]
-print(f"가중치: {conv.weights[0].shape}, 절편: {conv.weights[1].shape}")     # 커널 크기 3*3, 깊이 1, 필터 수 32
+# print(f"가중치: {conv.weights[0].shape}, 절편: {conv.weights[1].shape}")     # 커널 크기 3*3, 깊이 1, 필터 수 32
 conv_weights = conv.weights[0].numpy()
 print(f"가중치 평균: {conv_weights.mean()}, 가중치 표준편차: {conv_weights.std()}") # 0에 근접 / 0.23
 # 시각화
@@ -23,3 +23,12 @@ for i in range(2):
         axs[i, j].imshow(conv_weights[:, :, 0, i*16+j], vmin=-0.5, vmax=0.5)
         axs[i, j].axis('off')
 plt.show()
+
+### empty CNN 생성
+no_training_model = keras.Sequential()
+no_training_model.add(keras.layers.Input(shape=(28, 28, 1)))
+no_training_model.add(keras.layers.Conv2D(32, kernal_size=3, activation='relu', padding='same'))
+# 1번 층의 가중치를 변수에 저장
+no_training_conv = no_training_model.layers[0]
+no_training_weights = no_training_conv.weights[0].numpy()
+print(f"가중치 평균: {conv_weights.mean()}, 가중치 표준편차: {conv_weights.std()}") # 0에 근접 / 이전 모델보다 매우 작음
