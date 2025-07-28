@@ -73,3 +73,13 @@ for i in range(4):
         axs[i, j].imshow(feature_maps[0, :, :, i*8+j])
         axs[i, j].axis('off')
 plt.show()
+
+# 2번 합성곱 층 출력 시각화
+conv2_acti = keras.Model(model.inputs[0], model.layers[2].output)
+feature_maps = conv2_acti.predict(ankle_boot)       # (1, 14, 14, 64)
+fig, axs = plt.subplots(8, 8, figsize=(12,12))
+for i in range(8):
+    for j in range(8):
+        axs[i, j].imshow(feature_maps[0, :, :, i*8+j])
+        axs[i, j].axis('off')
+plt.show()
