@@ -44,3 +44,10 @@ for i in range(2):
         axs[i, j].imshow(no_training_weights[:, :, 0, i*16+j], vmin=-0.5, vmax=0.5)
         axs[i, j].axis('off')
 plt.show()
+
+
+### 함수형 API로 모델 구성
+inputs = keras.Input(shape=(784,))
+dense1 = keras.layers.Dense(100, activation='relu')
+dense2 = keras.layers.Dense(10, activation='softmax')
+hidden = dense1(inputs)     # inputs를 Dense1 층에 통과시킨 후 출력값을 hidden에 할당
