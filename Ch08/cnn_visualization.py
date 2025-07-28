@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 ### img_classification.py에서 훈련했던 CNN의 체크포인트 파일 불러오기
 model = keras.models.load_model('best-cnn-model.keras')
 # print(model.layers)     # 층 확인
-## 첫 번째 합성곱 층의 가중치 조사
+
+### 첫 번째 합성곱 층의 가중치 조사
 conv = model.layers[0]
 print(f"가중치: {conv.weights[0].shape}, 절편: {conv.weights[1].shape}")     # 커널 크기 3*3, 깊이 1, 필터 수 32
 conv_weights = conv.weights[0].numpy()
@@ -14,4 +15,11 @@ print(f"가중치 평균: {conv_weights.mean()}, 가중치 표준편차: {conv_w
 plt.hist(conv_weights.reshape(-1, 1))   # 1차원 배열로 전달
 plt.xlabel('weights')
 plt.ylabel('count')
+plt.show()
+
+fig, axs = plt.subplots(2, 16, figsize=(15,2))
+for i in range(2):
+    for j in range(16):
+        axs[i, j].imshow(conv_weights[:, :, 0, i*16+j], vmin=-0.5, vmax=0.5)
+        axs[i, j].axis('off')
 plt.show()
