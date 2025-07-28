@@ -65,3 +65,11 @@ conv_acti = keras.Model(model.inputs[0], model.layers[0].output)
 # 샘플을 conv_acti 모델에 주입해 Conv2D 층이 만드는 특성 맵 출력
 ankle_boot = train_input[0:1].reshape(-1, 28, 28, 1) / 255.0    # predict()에 샘플 전달하기 위해 차원 전처리
 feature_maps = conv_acti.predict(ankle_boot)                    # 세임 패딩과 32개 필터 사용한 층의 출력이므로 (1, 28, 28, 32)
+
+# 시각화: 입력 이미지에서 강하게 활성화된 부분을 노란색으로 표시
+fig, axs = plt.subplots(4, 8, figsize=(15,8))
+for i in range(4):
+    for j in range(8):
+        axs[i, j].imshow(feature_maps[0, :, :, i*8+j])
+        axs[i, j].axis('off')
+plt.show()
