@@ -32,3 +32,15 @@ for name, layer in model.named_children():
     print(f"{name: 10s}, layer")
 # - 층의 이름을 모델의 속성처럼 사용
 model.conv1
+
+### 가중치의 평균 및 표준편차 계산
+conv_weights = model.conv1.weight.data
+print(f"가중치 평균: {conv_weights.mean()}, 표준편차: {conv_weights.std()}")
+# PyTorch: 가중치 텐서에서 채널 차원이 가장 먼저 나옴; (필터 개수, 채널 차원, 높이, 너비)
+fig, axs = plt.subplots(2, 16, figsize=(15,2))
+for i in range(2):
+    for j in range(16):
+        axs[i, j].imshow(conv_weights[i*16 + j,0,:,:], vmin=-0.5, vmax=0.5)
+        axs[i, j].axis('off')
+plt.show()
+
