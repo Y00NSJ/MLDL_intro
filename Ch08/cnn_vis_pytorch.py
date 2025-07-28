@@ -21,3 +21,14 @@ model.add_module('dense2', nn.Linear(100, 10))
 # 가중치 로드
 model.load_state_dict(torch.load('best_cnn_model.pt', weights_only=True))
 
+### 층 참조
+# - generator 객체 활용
+layers = [layer for layer in model.children()]
+layers[0]
+# - Sequential 클래스 모델: 정수 인덱스로 참조
+model[0]
+# - 모델 객체의 메서드 활용
+for name, layer in model.named_children():
+    print(f"{name: 10s}, layer")
+# - 층의 이름을 모델의 속성처럼 사용
+model.conv1
