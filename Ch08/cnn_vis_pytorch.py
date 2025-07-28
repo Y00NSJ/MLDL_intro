@@ -3,7 +3,6 @@ import torch
 import matplotlib.pyplot as plt
 from torchvision.datasets import FashionMNIST
 
-from Ch08.cnn_visualization import ankle_boot
 
 ### 동일한 모델 생성 후 가중치 로드
 model = nn.Sequential()
