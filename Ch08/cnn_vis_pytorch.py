@@ -66,3 +66,19 @@ for i in range(4):
         axs[i, j].axis('off')
 plt.show()
 
+## 두 번째 합성곱 층에 전달
+model.eval()
+# 층이 깊다면 위의 방식이 비효율적이므로 아래 방식 사용
+with torch.no_grad():
+    for name, layer in model.named_children():
+        x = layer(x)
+        if name == 'relu2':
+            break
+feature_maps = x
+# 시각화
+fig, axs = plt.subplots(8, 8, figsize=(12,12))
+for i in range(8):
+    for j in range(8):
+        axs[i, j].imshow(feature_maps[0,i*8 + j,:,:])
+        axs[i, j].axis('off')
+plt.show()
