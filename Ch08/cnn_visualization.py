@@ -63,3 +63,5 @@ plt.show()
 # model 객체의 '입력'과 '1번 합성곱층의 출력'을 연결해 새로운 모델 생성
 conv_acti = keras.Model(model.inputs[0], model.layers[0].output)
 # 샘플을 conv_acti 모델에 주입해 Conv2D 층이 만드는 특성 맵 출력
+ankle_boot = train_input[0:1].reshape(-1, 28, 28, 1) / 255.0    # predict()에 샘플 전달하기 위해 차원 전처리
+feature_maps = conv_acti.predict(ankle_boot)                    # 세임 패딩과 32개 필터 사용한 층의 출력이므로 (1, 28, 28, 32)
