@@ -44,3 +44,25 @@ for i in range(2):
         axs[i, j].axis('off')
 plt.show()
 
+### 활성 출력 확인
+fm_train = FashionMNIST(root='.', train=True, download=True)
+train_input = fm_train.data
+
+## 0번 샘플을 첫 번째 합성곱 층에 전달
+# 전처리
+ankle_boot = train_input[0:1].reshape(1, 1, 28, 28) / 255.0
+# 모델 통과
+model.eval()
+with torch.no_grad():
+    feature_maps = model.conv1(ankle_boot)
+    # Keras와 달리 ReLU 함수가 별도 층으로 분리되어 있으므로 적용
+    feature_maps = model.relu1(feature_maps)
+
+## 시각화
+fig, axs = plt.subplots(4, 8, figsize=(15,8))
+for i in range(4):
+    for j in range(8):
+        axs[i, j].imshow(feature_maps[0,i*8 + j,:,:])
+        axs[i, j].axis('off')
+plt.show()
+
