@@ -60,3 +60,6 @@ func_model = keras.Model(inputs=inputs, outputs=outputs)
 (train_input, train_target), (test_input, test_target) = keras.datasets.fashion_mnist.load_data()
 plt.imshow(train_input[0], cmap='gray_r')
 plt.show()
+# model 객체의 '입력'과 '1번 합성곱층의 출력'을 연결해 새로운 모델 생성
+conv_acti = keras.Model(model.inputs[0], model.layers[0].output)
+# 샘플을 conv_acti 모델에 주입해 Conv2D 층이 만드는 특성 맵 출력
