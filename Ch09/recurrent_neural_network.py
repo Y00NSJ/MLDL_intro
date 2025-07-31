@@ -27,3 +27,4 @@ train_input, val_input, train_target, val_target = train_test_split(train_input,
 # plt.show()
 ## 리뷰의 길이 고정
 train_seq = pad_sequences(train_input, maxlen=100)  # 긴 리뷰는 시퀀스의 "앞 부분"을 자름(truncating=pre); 뒷부분이 더 결정적 정보라고 기대
+val_seq = pad_sequences(val_input, maxlen=100)
