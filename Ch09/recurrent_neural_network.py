@@ -8,3 +8,5 @@ from keras.datasets import imdb
 # 첫 번째 리뷰
 print("첫 번째 리뷰의 길이: ", len(train_input[0]))
 print("첫 번째 리뷰의 내용:\n", train_input[0])
+# 타깃 데이터
+print("타깃 데이터는 긍/부정 여부로 구성: ", train_target[:10])
