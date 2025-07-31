@@ -2,6 +2,7 @@ from keras.datasets import imdb
 from sklearn.model_selection import train_test_split
 import numpy as np
 import matplotlib.pyplot as plt
+from keras.preprocessing.sequence import pad_sequences
 
 
 ### 데이터 적재
@@ -18,9 +19,11 @@ import matplotlib.pyplot as plt
 ## 훈련 셋에서 검증 셋 분리
 train_input, val_input, train_target, val_target = train_test_split(train_input, train_target, test_size=0.2, random_state=42)
 ## 훈련 셋 조사: 각 리뷰의 길이 통계
-lengths = np.array([len(x) for x in train_input])
-print(f"리뷰 길이의 평균: {np.mean(lengths)}, 중간값: {np.median(lengths)}")
-plt.hist(lengths)
-plt.xlabel('length')
-plt.ylabel('frequency')
-plt.show()
+# lengths = np.array([len(x) for x in train_input])
+# print(f"리뷰 길이의 평균: {np.mean(lengths)}, 중간값: {np.median(lengths)}")
+# plt.hist(lengths)
+# plt.xlabel('length')
+# plt.ylabel('frequency')
+# plt.show()
+## 리뷰의 길이 고정
+train_seq = pad_sequences(train_input, maxlen=100)
