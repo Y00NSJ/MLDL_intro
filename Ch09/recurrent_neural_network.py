@@ -3,6 +3,7 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 import matplotlib.pyplot as plt
 from keras.preprocessing.sequence import pad_sequences
+import keras
 
 
 ### 데이터 적재
@@ -28,3 +29,9 @@ train_input, val_input, train_target, val_target = train_test_split(train_input,
 ## 리뷰의 길이 고정
 train_seq = pad_sequences(train_input, maxlen=100)  # 긴 리뷰는 시퀀스의 "앞 부분"을 자름(truncating=pre); 뒷부분이 더 결정적 정보라고 기대
 val_seq = pad_sequences(val_input, maxlen=100)
+
+### 순환 신경망 구성
+model = keras.Sequential()
+model.add(keras.layers.Input(shape=(100, 200)))     # 원-핫 인코딩
+model.add(keras.layers.SimpleRNN(8))
+model.add(keras.layers.Dense(1, activation='sigmoid'))      # 이진 분류 문제이므로
