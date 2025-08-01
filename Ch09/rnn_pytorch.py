@@ -2,6 +2,8 @@ from keras.datasets import imdb
 from sklearn.model_selection import train_test_split
 from keras.preprocessing.sequence import pad_sequences
 import torch
+from torch.utils.data import TensorDataset, DataLoader
+
 
 ## 데이터 로드 및 검증 셋 분할
 (train_input, train_target), (test_input, test_target) = imdb.load_data(num_words=500)
@@ -19,3 +21,10 @@ val_seq = torch.tensor(val_seq)
 print("타깃 배열의 데이터 타입: ", train_target.dtype)    # int64: 부정(0) or 긍정(1)
 train_target = torch.tensor(train_target, dtype=torch.float32)
 val_target = torch.tensor(val_target, dtype=torch.float32)
+
+## 데이터 로더로 훈련셋 및 검증셋 준비
+train_dataset = TensorDataset(train_seq, train_target)
+val_dataset = TensorDataset(val_seq, val_target)
+
+train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
+val_loader = DataLoader(val_dataset, batch_size=64, shuffle=True)
