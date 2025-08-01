@@ -91,3 +91,11 @@ history = model.fit(train_oh, train_target,
                     epochs=100, batch_size=64,
                     validation_data=(val_oh, val_target),
                     callbacks=[checkpoint_cb, early_stopping_cb])
+
+## 훈련 손실, 검증 손실 도식화
+plt.plot(history.history['loss'], label='train')
+plt.plot(history.history['val_loss'], label='val')
+plt.xlabel('epoch')
+plt.ylabel('loss')
+plt.legend()
+plt.show()
