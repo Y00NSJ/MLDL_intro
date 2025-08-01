@@ -82,3 +82,12 @@ model_emb.add(keras.layers.Dense(1, activation='sigmoid'))
 
 ## 모델 구조 확인
 model.summary()     # (16차원 입력 * 뉴런 8개) + (은닉 상태 크기 * 뉴런 개수) + 절편 8개
+
+## 모델 훈련
+model_emb.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+checkpoint_cb = keras.callbacks.ModelCheckpoint('best-simplernn-model.keras', save_best_only=True)
+early_stopping_cb = keras.callbacks.EarlyStopping(patience=3, restore_best_weights=True)
+history = model.fit(train_oh, train_target,
+                    epochs=100, batch_size=64,
+                    validation_data=(val_oh, val_target),
+                    callbacks=[checkpoint_cb, early_stopping_cb])
