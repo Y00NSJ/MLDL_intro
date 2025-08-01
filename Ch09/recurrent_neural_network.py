@@ -50,3 +50,10 @@ model.summary()         # (200차원 입력 * 뉴런 8개) + (은닉 상태 크�
 
 
 ### 순환 신경망 훈련
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+checkpoint_cb = keras.callbacks.ModelCheckpoint('best-simplernn-model.keras', save_best_only=True)
+early_stopping_cb = keras.callbacks.EarlyStopping(patience=3, restore_best_weights=True)
+history = model.fit(train_oh, train_target,
+                    epochs=100, batch_size=64,
+                    validation_data=(val_oh, val_target),
+                    callbacks=[checkpoint_cb, early_stopping_cb])
