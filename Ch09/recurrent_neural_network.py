@@ -16,6 +16,7 @@ import keras
 # # 타깃 데이터
 # print("타깃 데이터는 긍/부정 여부로 구성: ", train_target[:10])
 
+
 ### 데이터 전처리
 ## 훈련 셋에서 검증 셋 분리
 train_input, val_input, train_target, val_target = train_test_split(train_input, train_target, test_size=0.2, random_state=42)
@@ -30,10 +31,11 @@ train_input, val_input, train_target, val_target = train_test_split(train_input,
 train_seq = pad_sequences(train_input, maxlen=100)  # 긴 리뷰는 시퀀스의 "앞 부분"을 자름(truncating=pre); 뒷부분이 더 결정적 정보라고 기대
 val_seq = pad_sequences(val_input, maxlen=100)
 
+
 ### 순환 신경망 구성
 model = keras.Sequential()
-model.add(keras.layers.Input(shape=(100, 200)))     # 원-핫 인코딩 결과를 입력
-model.add(keras.layers.SimpleRNN(8))
+model.add(keras.layers.Input(shape=(100, 200)))                   # 원-핫 인코딩 결과를 입력
+model.add(keras.layers.SimpleRNN(8))                              # 순환층 뉴런 개수 8
 model.add(keras.layers.Dense(1, activation='sigmoid'))      # 이진 분류 문제이므로
 
 ## 원-핫 인코딩으로 훈련 셋/검증 셋 준비
@@ -42,3 +44,9 @@ print("train_seq 배열의 원-핫 인코딩 결과: ", train_oh.shape)     # 20
 print("인코딩 결과 예시_0번 샘플의 0번 토큰, 상위 12개 요소: ", train_oh[0][0][:12])
 print("인코딩 검증_200개 정수의 합이 1: ", np.sum(train_oh[0][0]))
 val_oh = keras.utils.to_categorical(val_seq)
+
+## 모델 구조 확인
+model.summary()         # (200차원 입력 * 뉴런 8개) + (은닉 상태 크기 * 뉴런 개수) + 절편 8개
+
+
+### 순환 신경망 훈련
