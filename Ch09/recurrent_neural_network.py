@@ -32,6 +32,13 @@ val_seq = pad_sequences(val_input, maxlen=100)
 
 ### 순환 신경망 구성
 model = keras.Sequential()
-model.add(keras.layers.Input(shape=(100, 200)))     # 원-핫 인코딩
+model.add(keras.layers.Input(shape=(100, 200)))     # 원-핫 인코딩 결과를 입력
 model.add(keras.layers.SimpleRNN(8))
 model.add(keras.layers.Dense(1, activation='sigmoid'))      # 이진 분류 문제이므로
+
+## 원-핫 인코딩으로 훈련 셋/검증 셋 준비
+train_oh = keras.utils.to_categorical(train_seq)
+print("train_seq 배열의 원-핫 인코딩 결과: ", train_oh.shape)     # 20000개 시퀀스의 각 100개씩의 단어가 각각 200 크기로 인코딩됨
+print("인코딩 결과 예시_0번 샘플의 0번 토큰, 상위 12개 요소: ", train_oh[0][0][:12])
+print("인코딩 검증_200개 정수의 합이 1: ", np.sum(train_oh[0][0]))
+val_oh = keras.utils.to_categorical(val_seq)
