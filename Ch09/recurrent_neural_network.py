@@ -67,6 +67,7 @@ plt.legend()
 plt.show()
 
 
+"""============================="""
 ### 단어 임베딩 방식
 ## 데이터셋 준비: 500개 단어까지 사용
 (train_input, train_target), (test_input, test_target) = imdb.load_data(num_words=500)
@@ -78,3 +79,6 @@ model_emb.add(keras.layers.Input(shape=(100,)))     # 원핫과 달리 입력을
 model_emb.add(keras.layers.Embedding(500, 16))  # 임베딩 벡터 크기 16 (원핫: 200)
 model_emb.add(keras.layers.SimpleRNN(8))
 model_emb.add(keras.layers.Dense(1, activation='sigmoid'))
+
+## 모델 구조 확인
+model.summary()     # (16차원 입력 * 뉴런 8개) + (은닉 상태 크기 * 뉴런 개수) + 절편 8개
