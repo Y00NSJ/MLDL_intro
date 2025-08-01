@@ -99,3 +99,4 @@ plt.xlabel('epoch')
 plt.ylabel('loss')
 plt.legend()
 plt.show()
+# 검증 손실은 10번째 에포크에서 감소 추세 멈추지만, 훈련 손실을 계속 감소
