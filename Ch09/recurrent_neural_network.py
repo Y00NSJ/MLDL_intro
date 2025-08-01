@@ -65,3 +65,9 @@ plt.xlabel('epoch')
 plt.ylabel('loss')
 plt.legend()
 plt.show()
+
+
+### 단어 임베딩 방식
+## 데이터셋 준비: 500개 단어까지 사용
+(train_input, train_target), (test_input, test_target) = imdb.load_data(num_words=500)
+train_input, val_input, train_target, val_target = train_test_split(train_input, train_target, test_size=0.2, random_state=42)
