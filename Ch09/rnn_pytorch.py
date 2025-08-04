@@ -3,6 +3,7 @@ from sklearn.model_selection import train_test_split
 from keras.preprocessing.sequence import pad_sequences
 import torch
 from torch.utils.data import TensorDataset, DataLoader
+import torch.nn as nn
 
 
 ## 데이터 로드 및 검증 셋 분할
@@ -28,3 +29,24 @@ val_dataset = TensorDataset(val_seq, val_target)
 
 train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=64, shuffle=True)
+
+## 모델 구현
+# Sequential 대신 nn.Module 상속 클래스 생성
+class IMDBRnn(nn.Module):
+    def __init__(self):
+        super().__init__()
+        # (어휘 사전 크기(배치 크기), 임베딩 벡터 크기(시퀀스 길이)) -> (배치 크기, 시퀀스 길이, 임베딩 크기)
+        self.embedding = nn.Embedding(500, 16)
+        # (시퀀스 길이, 배치 크기, 임베딩 크기)_임베딩 층의 출력 순서는 다르므로 매개변수 지정
+        self.rnn = nn.RNN(16, 8, batch_first=True)
+        # 밀집층
+        self.dense = nn.Linear(8, 1)
+        # 이진 분류 -> 시그모이드 활성 함수
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, x):
+        # 정의된 층을 차례로 호출
+        x = self.embedding(x)
+        _, hidden = self.rnn(x)             # 반환값 중 은닉 상태는 미사용
+        outputs = self.dense(hidden[-1])    # 여러 개의 층을 사용하는 경우를 가정해 마지막 층의 은닉 객체를 선택
+        return self.sigmoid(outputs)
