@@ -50,3 +50,9 @@ class IMDBRnn(nn.Module):
         _, hidden = self.rnn(x)             # 반환값 중 은닉 상태는 미사용
         outputs = self.dense(hidden[-1])    # 여러 개의 층을 사용하는 경우를 가정해 마지막 층의 은닉 객체를 선택
         return self.sigmoid(outputs)
+
+## 모델 객체 생성 및 GPU 전달
+model = IMDBRnn()
+
+device = torch.device('mps' if torch.backends.mps.is_available() else 'cpu')
+model.to(device)
