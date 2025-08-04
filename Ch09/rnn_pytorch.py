@@ -4,6 +4,7 @@ from keras.preprocessing.sequence import pad_sequences
 import torch
 from torch.utils.data import TensorDataset, DataLoader
 import torch.nn as nn
+import torch.optim as optim
 
 
 ## 데이터 로드 및 검증 셋 분할
@@ -56,3 +57,7 @@ model = IMDBRnn()
 
 device = torch.device('mps' if torch.backends.mps.is_available() else 'cpu')
 model.to(device)
+
+## 손실 함수 및 옵티마이저 정의
+criterion = nn.BCELoss()    # 마지막 층이 시그모이드였으므로 해당 함수 사용
+optimizer = optim.Adam(model.parameters(), lr=2e-4)
