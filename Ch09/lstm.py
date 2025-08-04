@@ -2,6 +2,7 @@ from keras.datasets import imdb
 from sklearn.model_selection import train_test_split
 from keras.preprocessing.sequence import pad_sequences
 import keras
+import matplotlib.pyplot as plt
 
 
 (train_input, train_target), (test_input, test_target) = imdb.load_data(num_words=500)
@@ -26,3 +27,11 @@ early_stopping_cb = keras.callbacks.EarlyStopping(patience=3, restore_best_weigh
 history = model_lstm.fit(train_seq, train_target, epochs=100, batch_size=64,
                          validation_data=(val_seq, val_target),
                          callbacks=[checkpoint_cb, early_stopping_cb])
+
+## 손실 그래프 도식화
+plt.plot(history.history['loss'], label='train')
+plt.plot(history.history['val_loss'], label='val')
+plt.xlabel('epoch')
+plt.ylabel('loss')
+plt.legend()
+plt.show()
