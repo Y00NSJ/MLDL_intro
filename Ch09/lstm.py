@@ -16,3 +16,5 @@ model_lstm.add(keras.layers.Input(shape=(100,)))
 model_lstm.add(keras.layers.Embedding(500, 16))
 model_lstm.add(keras.layers.LSTM(8))
 model_lstm.add(keras.layers.Dense(1, activation='sigmoid'))
+# 모델 구조 확인
+model_lstm.summary()    # SimpleRnn 대비, 셀 4개만큼 4배 되어 총 800개 모델 파라미터
