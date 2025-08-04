@@ -18,3 +18,11 @@ model_lstm.add(keras.layers.LSTM(8))
 model_lstm.add(keras.layers.Dense(1, activation='sigmoid'))
 # 모델 구조 확인
 model_lstm.summary()    # SimpleRnn 대비, 셀 4개만큼 4배 되어 총 800개 모델 파라미터
+
+## 모델 컴파일 및 훈련
+model_lstm.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+checkpoint_cb = keras.callbacks.ModelCheckpoint('best-lstm-model.keras', save_best_only=True)
+early_stopping_cb = keras.callbacks.EarlyStopping(patience=3, restore_best_weights=True)
+history = model_lstm.fit(train_seq, train_target, epochs=100, batch_size=64,
+                         validation_data=(val_seq, val_target),
+                         callbacks=[checkpoint_cb, early_stopping_cb])
