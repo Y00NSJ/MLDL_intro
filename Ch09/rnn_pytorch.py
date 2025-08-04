@@ -5,6 +5,7 @@ import torch
 from torch.utils.data import TensorDataset, DataLoader
 import torch.nn as nn
 import torch.optim as optim
+import matplotlib.pyplot as plt
 
 
 ## 데이터 로드 및 검증 셋 분할
@@ -107,3 +108,11 @@ for epoch in range(epochs):
         if early_stopping_counter >= patience:
             print(f"{epoch+1}번째 에포크에서 조기 종료되었습니다.")
             break
+
+## 손실 그래프 시각화
+plt.plot(train_hist, label='train')
+plt.plot(val_hist, label='val')
+plt.xlabel('epoch')
+plt.ylabel('loss')
+plt.legend()
+plt.show()
