@@ -61,3 +61,49 @@ model.to(device)
 ## 손실 함수 및 옵티마이저 정의
 criterion = nn.BCELoss()    # 마지막 층이 시그모이드였으므로 해당 함수 사용
 optimizer = optim.Adam(model.parameters(), lr=2e-4)
+
+## 모델 훈련
+train_hist = []
+val_hist = []
+patience = 2
+best_loss = -1
+early_stopping_counter = 0
+
+epochs = 100
+for epoch in range(epochs):
+    model.train()
+    train_loss = 0
+    for inputs, targets in train_loader:
+        inputs, targets = inputs.to(device), targets.to(device)
+        optimizer.zero_grad()
+        outputs = model(inputs)
+        loss = criterion(outputs.squeeze(), targets)
+        loss.backward()
+        optimizer.step()
+        train_loss += loss.item()
+
+    model.eval()
+    val_loss = 0
+    with torch.no_grad():
+        for inputs, targets in val_loader:
+            inputs, targets = inputs.to(device), targets.to(device)
+            outputs = model(inputs)
+            loss = criterion(outputs.squeeze(), targets)
+            val_loss += loss.item()
+
+    train_loss = train_loss/len(train_loader)
+    val_loss = val_loss/len(val_loader)
+    train_hist.append(train_loss)
+    val_hist.append(val_loss)
+    print(f"에포크:{epoch+1},",
+          f"훈련 손실:{train_loss:.4f}, 검증 손실:{val_loss:.4f}")
+
+    if best_loss == -1 or val_loss < best_loss:
+        best_loss = val_loss
+        early_stopping_counter = 0
+        torch.save(model.state_dict(), 'best_rnn_model.pt')
+    else:
+        early_stopping_counter += 1
+        if early_stopping_counter >= patience:
+            print(f"{epoch+1}번째 에포크에서 조기 종료되었습니다.")
+            break
