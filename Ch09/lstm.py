@@ -57,3 +57,12 @@ def plot_loss(history):
 #
 # # 손실 그래프 도식화
 # plot_loss(history)
+
+""" 2개의 순환층 연결 """
+model_2lstm = keras.Sequential()
+model_2lstm.add(keras.layers.Input(shape=(100,)))
+model_2lstm.add(keras.layers.Embedding(500, 16))
+model_2lstm.add(keras.layers.LSTM(8, dropout=0.2, return_sequences=True))   # 모든 타임스텝의 은닉상태를 출력해 다음 층에 전달
+model_2lstm.add(keras.layers.LSTM(8, dropout=0.2))          # 두 번째(마지막) 층: 마지막 타임스텝의 은닉상태만 출력
+model_2lstm.add(keras.layers.Dense(1, activation='sigmoid'))
+model_2lstm.summary()
