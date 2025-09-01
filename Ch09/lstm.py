@@ -19,7 +19,7 @@ def plot_loss(history):
     plt.legend()
     plt.show()
 
-# ## LSTM 순환층
+""" LSTM 순환층 """
 # model_lstm = keras.Sequential()
 # model_lstm.add(keras.layers.Input(shape=(100,)))
 # model_lstm.add(keras.layers.Embedding(500, 16))
@@ -40,20 +40,20 @@ def plot_loss(history):
 # plot_loss(history)
 
 
-## 순환층에 Dropout 적용
-model_dropout = keras.Sequential()
-model_dropout.add(keras.layers.Input(shape=(100,)))
-model_dropout.add(keras.layers.Embedding(500, 16))
-model_dropout.add(keras.layers.LSTM(8, dropout=0.2))
-model_dropout.add(keras.layers.Dense(1, activation='sigmoid'))
-
-# 모델 컴파일 및 훈련
-model_dropout.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-checkpoint_cb = keras.callbacks.ModelCheckpoint('beset-dropout-model.keras', save_best_only=True)
-early_stopping_cb = keras.callbacks.EarlyStopping(patience=3, restore_best_weights=True)
-history = model_dropout.fit(train_seq, train_target, epochs=100, batch_size=64,
-                            validation_data=(val_seq, val_target),
-                            callbacks=[checkpoint_cb, early_stopping_cb])
-
-# 손실 그래프 도식화
-plot_loss(history)
+""" 순환층에 Dropout 적용 """
+# model_dropout = keras.Sequential()
+# model_dropout.add(keras.layers.Input(shape=(100,)))
+# model_dropout.add(keras.layers.Embedding(500, 16))
+# model_dropout.add(keras.layers.LSTM(8, dropout=0.2))
+# model_dropout.add(keras.layers.Dense(1, activation='sigmoid'))
+#
+# # 모델 컴파일 및 훈련
+# model_dropout.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+# checkpoint_cb = keras.callbacks.ModelCheckpoint('beset-dropout-model.keras', save_best_only=True)
+# early_stopping_cb = keras.callbacks.EarlyStopping(patience=3, restore_best_weights=True)
+# history = model_dropout.fit(train_seq, train_target, epochs=100, batch_size=64,
+#                             validation_data=(val_seq, val_target),
+#                             callbacks=[checkpoint_cb, early_stopping_cb])
+#
+# # 손실 그래프 도식화
+# plot_loss(history)
