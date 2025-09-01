@@ -11,6 +11,14 @@ train_input, val_input, train_target, val_target = train_test_split(train_input,
 train_seq = pad_sequences(train_input, maxlen=100)
 val_seq = pad_sequences(val_input, maxlen=100)
 
+def plot_loss(history):
+    plt.plot(history.history['loss'], label='train')
+    plt.plot(history.history['val_loss'], label='val')
+    plt.xlabel('epoch')
+    plt.ylabel('loss')
+    plt.legend()
+    plt.show()
+
 # ## LSTM 순환층
 # model_lstm = keras.Sequential()
 # model_lstm.add(keras.layers.Input(shape=(100,)))
@@ -29,12 +37,7 @@ val_seq = pad_sequences(val_input, maxlen=100)
 #                          callbacks=[checkpoint_cb, early_stopping_cb])
 #
 # ## 손실 그래프 도식화
-# plt.plot(history.history['loss'], label='train')
-# plt.plot(history.history['val_loss'], label='val')
-# plt.xlabel('epoch')
-# plt.ylabel('loss')
-# plt.legend()
-# plt.show()
+# plot_loss(history)
 
 
 ## 순환층에 Dropout 적용
@@ -53,9 +56,4 @@ history = model_dropout.fit(train_seq, train_target, epochs=100, batch_size=64,
                             callbacks=[checkpoint_cb, early_stopping_cb])
 
 # 손실 그래프 도식화
-plt.plot(history.history['loss'], label='train')
-plt.plot(history.history['val_loss'], label='val')
-plt.xlabel('epoch')
-plt.ylabel('loss')
-plt.legend()
-plt.show()
+plot_loss(history)
