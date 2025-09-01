@@ -66,3 +66,11 @@ model_2lstm.add(keras.layers.LSTM(8, dropout=0.2, return_sequences=True))   # �
 model_2lstm.add(keras.layers.LSTM(8, dropout=0.2))          # 두 번째(마지막) 층: 마지막 타임스텝의 은닉상태만 출력
 model_2lstm.add(keras.layers.Dense(1, activation='sigmoid'))
 model_2lstm.summary()
+
+# 모델 컴파일 및 훈련
+model_2lstm.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+checkpoint_cb = keras.callbacks.ModelCheckpoint('beset-2lstm-model.keras', save_best_only=True)
+early_stopping_cb = keras.callbacks.EarlyStopping(patience=3, restore_best_weights=True)
+history = model_2lstm.fit(train_seq, train_target, epochs=100, batch_size=64,
+                            validation_data=(val_seq, val_target),
+                            callbacks=[checkpoint_cb, early_stopping_cb])
